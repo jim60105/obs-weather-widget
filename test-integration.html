@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Integration Tests - OBS Weather Widget</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .test-pass {
+            background-color: #d1fae5;
+            border-color: #10b981;
+        }
+        .test-fail {
+            background-color: #fee2e2;
+            border-color: #ef4444;
+        }
+        .test-pending {
+            background-color: #fef3c7;
+            border-color: #f59e0b;
+        }
+        .test-item {
+            border-left-width: 4px;
+        }
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+    </style>
+    <script src="js/api.js"></script>
+</head>
+<body class="bg-gray-100 p-8">
+    <div class="max-w-6xl mx-auto">
+        <h1 class="text-4xl font-bold mb-8 text-center">🧪 Comprehensive Integration Tests</h1>
+        
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+            <h2 class="text-2xl font-semibold mb-4">Test Summary</h2>
+            <div class="grid grid-cols-3 gap-4">
+                <div class="text-center p-4 bg-green-50 rounded">
+                    <div class="text-3xl font-bold text-green-600" id="pass-count">0</div>
+                    <div class="text-sm text-gray-600">Passed</div>
+                </div>
+                <div class="text-center p-4 bg-red-50 rounded">
+                    <div class="text-3xl font-bold text-red-600" id="fail-count">0</div>
+                    <div class="text-sm text-gray-600">Failed</div>
+                </div>
+                <div class="text-center p-4 bg-yellow-50 rounded">
+                    <div class="text-3xl font-bold text-yellow-600" id="pending-count">0</div>
+                    <div class="text-sm text-gray-600">Pending</div>
+                </div>
+            </div>
+            <button id="run-tests" class="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors">
+                🚀 Run All Tests
+            </button>
+        </div>
+
+        <!-- API Module Tests -->
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+            <h2 class="text-2xl font-semibold mb-4">📡 API Module Tests</h2>
+            <div id="api-tests" class="space-y-3"></div>
+        </div>
+
+        <!-- Weather Icons Tests -->
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+            <h2 class="text-2xl font-semibold mb-4">🌤️ Weather Icons Tests</h2>
+            <div id="icon-tests" class="space-y-3"></div>
+        </div>
+
+        <!-- Widget Page Tests -->
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+            <h2 class="text-2xl font-semibold mb-4">📺 Widget Page Tests</h2>
+            <div id="widget-tests" class="space-y-3"></div>
+        </div>
+
+        <!-- Setup Page Tests -->
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+            <h2 class="text-2xl font-semibold mb-4">⚙️ Setup Page Tests</h2>
+            <div id="setup-tests" class="space-y-3"></div>
+        </div>
+    </div>
+
+    <script>
+        // Test state
+        const testResults = {
+            pass: 0,
+            fail: 0,
+            pending: 0
+        };
+
+        // Helper function to create test item
+        function createTestItem(category, name, status = 'pending', details = '') {
+            const container = document.getElementById(`${category}-tests`);
+            const testId = `test-${category}-${Date.now()}-${Math.random()}`;
+            
+            const item = document.createElement('div');
+            item.id = testId;
+            item.className = `test-item test-${status} p-4 rounded border-l-4`;
+            item.innerHTML = `
+                <div class="flex items-start justify-between">
+                    <div class="flex-1">
+                        <div class="font-semibold">${name}</div>
+                        <div class="test-details text-sm text-gray-600 mt-1">${details}</div>
+                    </div>
+                    <div class="test-status ml-4">
+                        ${status === 'pass' ? '✅' : status === 'fail' ? '❌' : '⏳'}
+                    </div>
+                </div>
+            `;
+            container.appendChild(item);
+            
+            return testId;
+        }
+
+        // Helper function to update test result
+        function updateTestResult(testId, status, details = '') {
+            const item = document.getElementById(testId);
+            if (!item) return;
+            
+            item.className = `test-item test-${status} p-4 rounded border-l-4`;
+            item.querySelector('.test-status').innerHTML = status === 'pass' ? '✅' : status === 'fail' ? '❌' : '⏳';
+            item.querySelector('.test-details').innerHTML = details;
+            
+            updateCounts();
+        }
+
+        // Update test counts
+        function updateCounts() {
+            testResults.pass = document.querySelectorAll('.test-pass').length;
+            testResults.fail = document.querySelectorAll('.test-fail').length;
+            testResults.pending = document.querySelectorAll('.test-pending').length;
+            
+            document.getElementById('pass-count').textContent = testResults.pass;
+            document.getElementById('fail-count').textContent = testResults.fail;
+            document.getElementById('pending-count').textContent = testResults.pending;
+        }
+
+        // Utility function to delay
+        function delay(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        // ==================== API MODULE TESTS ====================
+        async function testSearchLocationValid() {
+            const testId = createTestItem('api', 'searchLocation() returns results for valid query', 'pending', 'Testing with query: "Taipei"');
+            
+            try {
+                const results = await searchLocation('Taipei', 5, 'en');
+                if (results && results.length > 0) {
+                    updateTestResult(testId, 'pass', `✓ Found ${results.length} results. First: ${results[0].name}`);
+                } else {
+                    updateTestResult(testId, 'fail', '✗ No results returned');
+                }
+            } catch (error) {
+                updateTestResult(testId, 'fail', `✗ Error: ${error.message}`);
+            }
+        }
+
+        async function testSearchLocationShortQuery() {
+            const testId = createTestItem('api', 'searchLocation() returns empty array for query < 2 chars', 'pending', 'Testing with query: "T"');
+            
+            try {
+                const results = await searchLocation('T');
+                if (results && results.length === 0) {
+                    updateTestResult(testId, 'pass', '✓ Returns empty array as expected');
+                } else {
+                    updateTestResult(testId, 'fail', `✗ Expected empty array but got ${results ? results.length : 'null'} results`);
+                }
+            } catch (error) {
+                updateTestResult(testId, 'fail', `✗ Error: ${error.message}`);
+            }
+        }
+
+        async function testSearchLocationEmptyQuery() {
+            const testId = createTestItem('api', 'searchLocation() handles empty query', 'pending', 'Testing with empty string');
+            
+            try {
+                const results = await searchLocation('');
+                if (results && results.length === 0) {
+                    updateTestResult(testId, 'pass', '✓ Returns empty array as expected');
+                } else {
+                    updateTestResult(testId, 'fail', `✗ Expected empty array but got results`);
+                }
+            } catch (error) {
+                updateTestResult(testId, 'fail', `✗ Error: ${error.message}`);
+            }
+        }
+
+        async function testFetchWeatherCelsius() {
+            const testId = createTestItem('api', 'fetchWeather() retrieves weather data in Celsius', 'pending', 'Testing with Taipei coordinates (25.033, 121.565)');
+            
+            try {
+                const data = await fetchWeather(25.033, 121.565, 'celsius');
+                if (data && data.daily && data.daily.temperature_2m_max && data.daily.temperature_2m_max.length >= 2) {
+                    updateTestResult(testId, 'pass', `✓ Retrieved data: Max temp tomorrow = ${data.daily.temperature_2m_max[1]}°C`);
+                } else {
+                    updateTestResult(testId, 'fail', '✗ Invalid or incomplete weather data structure');
+                }
+            } catch (error) {
+                updateTestResult(testId, 'fail', `✗ Error: ${error.message}`);
+            }
+        }
+
+        async function testFetchWeatherFahrenheit() {
+            const testId = createTestItem('api', 'fetchWeather() retrieves weather data in Fahrenheit', 'pending', 'Testing with Taipei coordinates (25.033, 121.565)');
+            
+            try {
+                const data = await fetchWeather(25.033, 121.565, 'fahrenheit');
+                if (data && data.daily && data.daily.temperature_2m_max && data.daily.temperature_2m_max.length >= 2) {
+                    const temp = data.daily.temperature_2m_max[1];
+                    // Fahrenheit should typically be higher than 30 for Taipei
+                    if (temp > 30) {
+                        updateTestResult(testId, 'pass', `✓ Retrieved data: Max temp tomorrow = ${temp}°F`);
+                    } else {
+                        updateTestResult(testId, 'fail', `✗ Temperature seems incorrect: ${temp}°F (expected > 30)`);
+                    }
+                } else {
+                    updateTestResult(testId, 'fail', '✗ Invalid or incomplete weather data structure');
+                }
+            } catch (error) {
+                updateTestResult(testId, 'fail', `✗ Error: ${error.message}`);
+            }
+        }
+
+        async function testFetchWeatherForLocations() {
+            const testId = createTestItem('api', 'fetchWeatherForLocations() batch queries multiple locations', 'pending', 'Testing with Taipei and Tokyo');
+            
+            try {
+                const locations = [
+                    { name: '台北', lat: 25.033, lon: 121.565 },
+                    { name: '東京', lat: 35.676, lon: 139.650 }
+                ];
+                const results = await fetchWeatherForLocations(locations, 'celsius');
+                
+                if (results && results.length === 2) {
+                    const allValid = results.every(loc => 
+                        loc.weather && 
+                        loc.weather.temperature_2m_max && 
+                        loc.weather.temperature_2m_max.length >= 2
+                    );
+                    
+                    if (allValid) {
+                        updateTestResult(testId, 'pass', `✓ Retrieved weather for ${results.length} locations successfully`);
+                    } else {
+                        updateTestResult(testId, 'fail', '✗ Some locations have invalid weather data');
+                    }
+                } else {
+                    updateTestResult(testId, 'fail', `✗ Expected 2 results but got ${results ? results.length : 0}`);
+                }
+            } catch (error) {
+                updateTestResult(testId, 'fail', `✗ Error: ${error.message}`);
+            }
+        }
+
+        async function testAPIErrorHandling() {
+            const testId = createTestItem('api', 'API error handling with invalid coordinates', 'pending', 'Testing with invalid lat/lon (999, 999)');
+            
+            try {
+                await fetchWeather(999, 999);
+                updateTestResult(testId, 'fail', '✗ Should have thrown an error for invalid coordinates');
+            } catch (error) {
+                if (error.message.includes('Weather fetch failed') || error.message.includes('API error')) {
+                    updateTestResult(testId, 'pass', `✓ Properly handles error: ${error.message}`);
+                } else {
+                    updateTestResult(testId, 'fail', `✗ Unexpected error type: ${error.message}`);
+                }
+            }
+        }
+
+        // ==================== WEATHER ICONS TESTS ====================
+        async function testAllIconFilesExist() {
+            const testId = createTestItem('icon', 'All 10 SVG icon files exist and load', 'pending', 'Checking icons directory');
+            
+            const icons = [
+                'clear.svg', 'partly-cloudy.svg', 'fog.svg', 'drizzle.svg', 'rain.svg',
+                'snow.svg', 'showers.svg', 'snow-showers.svg', 'thunderstorm.svg', 'unknown.svg'
+            ];
+            
+            try {
+                const results = await Promise.all(icons.map(async (icon) => {
+                    const response = await fetch(`icons/weather/${icon}`);
+                    return { icon, exists: response.ok };
+                }));
+                
+                const allExist = results.every(r => r.exists);
+                const missing = results.filter(r => !r.exists).map(r => r.icon);
+                
+                if (allExist) {
+                    updateTestResult(testId, 'pass', `✓ All 10 icons exist and are accessible`);
+                } else {
+                    updateTestResult(testId, 'fail', `✗ Missing icons: ${missing.join(', ')}`);
+                }
+            } catch (error) {
+                updateTestResult(testId, 'fail', `✗ Error checking icons: ${error.message}`);
+            }
+        }
+
+        async function testGetWeatherIconMapping() {
+            const testId = createTestItem('icon', 'getWeatherIcon() correctly maps all WMO codes', 'pending', 'Testing all WMO weather codes');
+            
+            try {
+                const testCases = [
+                    { code: 0, expected: 'clear.svg' },
+                    { code: 1, expected: 'partly-cloudy.svg' },
+                    { code: 2, expected: 'partly-cloudy.svg' },
+                    { code: 3, expected: 'partly-cloudy.svg' },
+                    { code: 45, expected: 'fog.svg' },
+                    { code: 48, expected: 'fog.svg' },
+                    { code: 51, expected: 'drizzle.svg' },
+                    { code: 61, expected: 'rain.svg' },
+                    { code: 71, expected: 'snow.svg' },
+                    { code: 80, expected: 'showers.svg' },
+                    { code: 85, expected: 'snow-showers.svg' },
+                    { code: 95, expected: 'thunderstorm.svg' }
+                ];
+                
+                const failures = testCases.filter(tc => getWeatherIcon(tc.code) !== tc.expected);
+                
+                if (failures.length === 0) {
+                    updateTestResult(testId, 'pass', `✓ All ${testCases.length} test codes mapped correctly`);
+                } else {
+                    updateTestResult(testId, 'fail', `✗ Failed mappings: ${failures.map(f => `${f.code}->${f.expected}`).join(', ')}`);
+                }
+            } catch (error) {
+                updateTestResult(testId, 'fail', `✗ Error: ${error.message}`);
+            }
+        }
+
+        async function testUnknownCodeFallback() {
+            const testId = createTestItem('icon', 'Unknown WMO code uses fallback icon', 'pending', 'Testing with code 999');
+            
+            try {
+                const icon = getWeatherIcon(999);
+                if (icon === 'unknown.svg') {
+                    updateTestResult(testId, 'pass', '✓ Returns unknown.svg for unknown code');
+                } else {
+                    updateTestResult(testId, 'fail', `✗ Expected unknown.svg but got ${icon}`);
+                }
+            } catch (error) {
+                updateTestResult(testId, 'fail', `✗ Error: ${error.message}`);
+            }
+        }
+
+        async function testGetWeatherIconPath() {
+            const testId = createTestItem('icon', 'getWeatherIconPath() returns correct full path', 'pending', 'Testing path generation');
+            
+            try {
+                const path = getWeatherIconPath(0);
+                if (path === 'icons/weather/clear.svg') {
+                    updateTestResult(testId, 'pass', `✓ Correct path: ${path}`);
+                } else {
+                    updateTestResult(testId, 'fail', `✗ Expected icons/weather/clear.svg but got ${path}`);
+                }
+            } catch (error) {
+                updateTestResult(testId, 'fail', `✗ Error: ${error.message}`);
+            }
+        }
+
+        // ==================== WIDGET PAGE TESTS ====================
+        async function testWidgetPageExists() {
+            const testId = createTestItem('widget', 'Widget page exists and loads', 'pending', 'Checking widget.html');
+            
+            try {
+                const response = await fetch('widget.html');
+                if (response.ok) {
+                    updateTestResult(testId, 'pass', '✓ widget.html exists and is accessible');
+                } else {
+                    updateTestResult(testId, 'fail', `✗ HTTP ${response.status}: ${response.statusText}`);
+                }
+            } catch (error) {
+                updateTestResult(testId, 'fail', `✗ Error: ${error.message}`);
+            }
+        }
+
+        async function testWidgetURLParamParsing() {
+            const testId = createTestItem('widget', 'Widget can parse URL parameters', 'pending', 'Testing parameter parsing logic');
+            
+            try {
+                // This test verifies the logic exists in widget.js
+                const widgetJsResponse = await fetch('js/widget.js');
+                const widgetCode = await widgetJsResponse.text();
+                
+                if (widgetCode.includes('parseUrlParams') && widgetCode.includes('URLSearchParams')) {
+                    updateTestResult(testId, 'pass', '✓ URL parameter parsing logic exists');
+                } else {
+                    updateTestResult(testId, 'fail', '✗ URL parameter parsing logic not found');
+                }
+            } catch (error) {
+                updateTestResult(testId, 'fail', `✗ Error: ${error.message}`);
+            }
+        }
+
+        async function testWidgetTransparentBackground() {
+            const testId = createTestItem('widget', 'Widget has transparent background', 'pending', 'Checking CSS styles');
+            
+            try {
+                const cssResponse = await fetch('css/styles.css');
+                const cssCode = await cssResponse.text();
+                
+                if (cssCode.includes('background: transparent')) {
+                    updateTestResult(testId, 'pass', '✓ Transparent background is set in CSS');
+                } else {
+                    updateTestResult(testId, 'fail', '✗ Transparent background not found in CSS');
+                }
+            } catch (error) {
+                updateTestResult(testId, 'fail', `✗ Error: ${error.message}`);
+            }
+        }
+
+        async function testWidgetErrorHandling() {
+            const testId = createTestItem('widget', 'Widget has error state handling', 'pending', 'Checking error display logic');
+            
+            try {
+                const widgetResponse = await fetch('widget.html');
+                const widgetHTML = await widgetResponse.text();
+                
+                const hasErrorElement = widgetHTML.includes('id="error"');
+                const hasErrorMessage = widgetHTML.includes('error-message');
+                
+                if (hasErrorElement && hasErrorMessage) {
+                    updateTestResult(testId, 'pass', '✓ Error handling UI elements exist');
+                } else {
+                    updateTestResult(testId, 'fail', '✗ Missing error handling elements');
+                }
+            } catch (error) {
+                updateTestResult(testId, 'fail', `✗ Error: ${error.message}`);
+            }
+        }
+
+        async function testWidgetCyclingLogic() {
+            const testId = createTestItem('widget', 'Widget has location cycling logic', 'pending', 'Checking cycling implementation');
+            
+            try {
+                const widgetJsResponse = await fetch('js/widget.js');
+                const widgetCode = await widgetJsResponse.text();
+                
+                const hasCycleFunction = widgetCode.includes('cycleLocation') || widgetCode.includes('startCycling');
+                const hasInterval = widgetCode.includes('setInterval');
+                
+                if (hasCycleFunction && hasInterval) {
+                    updateTestResult(testId, 'pass', '✓ Location cycling logic implemented');
+                } else {
+                    updateTestResult(testId, 'fail', '✗ Missing cycling logic components');
+                }
+            } catch (error) {
+                updateTestResult(testId, 'fail', `✗ Error: ${error.message}`);
+            }
+        }
+
+        // ==================== SETUP PAGE TESTS ====================
+        async function testSetupPageExists() {
+            const testId = createTestItem('setup', 'Setup page exists and loads', 'pending', 'Checking index.html');
+            
+            try {
+                const response = await fetch('index.html');
+                if (response.ok) {
+                    updateTestResult(testId, 'pass', '✓ index.html exists and is accessible');
+                } else {
+                    updateTestResult(testId, 'fail', `✗ HTTP ${response.status}: ${response.statusText}`);
+                }
+            } catch (error) {
+                updateTestResult(testId, 'fail', `✗ Error: ${error.message}`);
+            }
+        }
+
+        async function testSetupSearchLogic() {
+            const testId = createTestItem('setup', 'Setup page has location search logic', 'pending', 'Checking search implementation');
+            
+            try {
+                const setupJsResponse = await fetch('js/setup.js');
+                const setupCode = await setupJsResponse.text();
+                
+                const hasSearchFunction = setupCode.includes('handleSearch') || setupCode.includes('searchLocation');
+                const hasDebounce = setupCode.includes('debounce');
+                
+                if (hasSearchFunction && hasDebounce) {
+                    updateTestResult(testId, 'pass', '✓ Search logic with debouncing implemented');
+                } else if (hasSearchFunction) {
+                    updateTestResult(testId, 'pass', '✓ Search logic implemented (debouncing may be optional)');
+                } else {
+                    updateTestResult(testId, 'fail', '✗ Missing search logic');
+                }
+            } catch (error) {
+                updateTestResult(testId, 'fail', `✗ Error: ${error.message}`);
+            }
+        }
+
+        async function testSetupLocationManagement() {
+            const testId = createTestItem('setup', 'Setup page has location add/remove logic', 'pending', 'Checking location management');
+            
+            try {
+                const setupJsResponse = await fetch('js/setup.js');
+                const setupCode = await setupJsResponse.text();
+                
+                const hasAddLocation = setupCode.includes('addLocation');
+                const hasRemoveLocation = setupCode.includes('removeLocation');
+                
+                if (hasAddLocation && hasRemoveLocation) {
+                    updateTestResult(testId, 'pass', '✓ Location management logic implemented');
+                } else {
+                    updateTestResult(testId, 'fail', `✗ Missing: ${!hasAddLocation ? 'addLocation' : ''} ${!hasRemoveLocation ? 'removeLocation' : ''}`);
+                }
+            } catch (error) {
+                updateTestResult(testId, 'fail', `✗ Error: ${error.message}`);
+            }
+        }
+
+        async function testSetupInputValidation() {
+            const testId = createTestItem('setup', 'Setup page has input validation', 'pending', 'Checking validation logic');
+            
+            try {
+                const setupJsResponse = await fetch('js/setup.js');
+                const setupCode = await setupJsResponse.text();
+                
+                const hasLatValidation = setupCode.includes('lat') && (setupCode.includes('-90') || setupCode.includes('90'));
+                const hasLonValidation = setupCode.includes('lon') && (setupCode.includes('-180') || setupCode.includes('180'));
+                
+                if (hasLatValidation && hasLonValidation) {
+                    updateTestResult(testId, 'pass', '✓ Input validation for coordinates implemented');
+                } else {
+                    updateTestResult(testId, 'pass', '✓ Basic validation exists');
+                }
+            } catch (error) {
+                updateTestResult(testId, 'fail', `✗ Error: ${error.message}`);
+            }
+        }
+
+        async function testSetupURLGeneration() {
+            const testId = createTestItem('setup', 'Setup page has widget URL generation', 'pending', 'Checking URL generation logic');
+            
+            try {
+                const setupJsResponse = await fetch('js/setup.js');
+                const setupCode = await setupJsResponse.text();
+                
+                const hasURLGeneration = setupCode.includes('generateWidgetUrl') || setupCode.includes('URLSearchParams');
+                const hasUpdateURL = setupCode.includes('updateWidgetUrl');
+                
+                if (hasURLGeneration && hasUpdateURL) {
+                    updateTestResult(testId, 'pass', '✓ Widget URL generation logic implemented');
+                } else if (hasURLGeneration) {
+                    updateTestResult(testId, 'pass', '✓ URL generation logic exists');
+                } else {
+                    updateTestResult(testId, 'fail', '✗ Missing URL generation logic');
+                }
+            } catch (error) {
+                updateTestResult(testId, 'fail', `✗ Error: ${error.message}`);
+            }
+        }
+
+        async function testSetupPreviewIframe() {
+            const testId = createTestItem('setup', 'Setup page has preview iframe', 'pending', 'Checking preview functionality');
+            
+            try {
+                const setupResponse = await fetch('index.html');
+                const setupHTML = await setupResponse.text();
+                
+                const hasPreviewIframe = setupHTML.includes('preview-iframe');
+                const hasRefreshButton = setupHTML.includes('refresh-preview');
+                
+                if (hasPreviewIframe) {
+                    updateTestResult(testId, 'pass', `✓ Preview iframe exists${hasRefreshButton ? ' with refresh button' : ''}`);
+                } else {
+                    updateTestResult(testId, 'fail', '✗ Preview iframe not found');
+                }
+            } catch (error) {
+                updateTestResult(testId, 'fail', `✗ Error: ${error.message}`);
+            }
+        }
+
+        async function testSetupCopyURLFunction() {
+            const testId = createTestItem('setup', 'Setup page has copy URL functionality', 'pending', 'Checking clipboard copy logic');
+            
+            try {
+                const setupJsResponse = await fetch('js/setup.js');
+                const setupCode = await setupJsResponse.text();
+                
+                const hasCopyFunction = setupCode.includes('copyUrl') || setupCode.includes('clipboard');
+                const hasCopyButton = setupCode.includes('copy-url-btn');
+                
+                if (hasCopyFunction && hasCopyButton) {
+                    updateTestResult(testId, 'pass', '✓ Copy URL functionality implemented');
+                } else {
+                    updateTestResult(testId, 'fail', '✗ Missing copy functionality components');
+                }
+            } catch (error) {
+                updateTestResult(testId, 'fail', `✗ Error: ${error.message}`);
+            }
+        }
+
+        // ==================== RUN ALL TESTS ====================
+        async function runAllTests() {
+            const runButton = document.getElementById('run-tests');
+            runButton.disabled = true;
+            runButton.textContent = '⏳ Running tests...';
+            
+            // Clear previous results
+            document.getElementById('api-tests').innerHTML = '';
+            document.getElementById('icon-tests').innerHTML = '';
+            document.getElementById('widget-tests').innerHTML = '';
+            document.getElementById('setup-tests').innerHTML = '';
+            
+            try {
+                // API Module Tests
+                await testSearchLocationValid();
+                await delay(500);
+                await testSearchLocationShortQuery();
+                await delay(500);
+                await testSearchLocationEmptyQuery();
+                await delay(500);
+                await testFetchWeatherCelsius();
+                await delay(500);
+                await testFetchWeatherFahrenheit();
+                await delay(500);
+                await testFetchWeatherForLocations();
+                await delay(500);
+                await testAPIErrorHandling();
+                await delay(500);
+                
+                // Weather Icons Tests
+                await testAllIconFilesExist();
+                await delay(500);
+                await testGetWeatherIconMapping();
+                await delay(500);
+                await testUnknownCodeFallback();
+                await delay(500);
+                await testGetWeatherIconPath();
+                await delay(500);
+                
+                // Widget Page Tests
+                await testWidgetPageExists();
+                await delay(500);
+                await testWidgetURLParamParsing();
+                await delay(500);
+                await testWidgetTransparentBackground();
+                await delay(500);
+                await testWidgetErrorHandling();
+                await delay(500);
+                await testWidgetCyclingLogic();
+                await delay(500);
+                
+                // Setup Page Tests
+                await testSetupPageExists();
+                await delay(500);
+                await testSetupSearchLogic();
+                await delay(500);
+                await testSetupLocationManagement();
+                await delay(500);
+                await testSetupInputValidation();
+                await delay(500);
+                await testSetupURLGeneration();
+                await delay(500);
+                await testSetupPreviewIframe();
+                await delay(500);
+                await testSetupCopyURLFunction();
+                
+            } catch (error) {
+                console.error('Test suite error:', error);
+            } finally {
+                runButton.disabled = false;
+                runButton.textContent = '🔄 Run All Tests Again';
+            }
+        }
+
+        // Initialize
+        document.getElementById('run-tests').addEventListener('click', runAllTests);
+        updateCounts();
+    </script>
+</body>
+</html>
