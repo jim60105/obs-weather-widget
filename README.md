@@ -3,6 +3,7 @@
 A transparent weather widget for OBS Studio browser sources, displaying weather forecasts with cycling location support.
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![Tests](https://img.shields.io/badge/tests-23%2F23%20passing-brightgreen.svg)](INTEGRATION_TEST_REPORT.md)
 
 ## Features
 
@@ -149,6 +150,27 @@ php -S localhost:8000
 ```
 
 Then open `http://localhost:8000` in your browser.
+
+## Testing
+
+### Running Tests
+
+The project includes comprehensive integration tests:
+
+```bash
+# Start a local server
+python -m http.server 8000
+
+# Open test pages in your browser
+# - http://localhost:8000/test-integration.html (Automated test suite)
+# - http://localhost:8000/test-icons.html (Icon display tests)
+```
+
+### Test Results
+
+✅ **23/23 tests passing** (100% success rate)
+
+See [INTEGRATION_TEST_REPORT.md](INTEGRATION_TEST_REPORT.md) for detailed test results and [TESTING_SUMMARY.md](TESTING_SUMMARY.md) for a comprehensive overview.
 
 ## License
 
