@@ -1,47 +1,28 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
-  <!-- Cloud -->
-  <g fill="#B8C5D6">
-    <ellipse cx="24" cy="18" rx="10" ry="8"/>
-    <ellipse cx="34" cy="16" rx="9" ry="7"/>
-    <ellipse cx="42" cy="18" rx="8" ry="6"/>
-    <rect x="16" y="18" width="32" height="8" rx="2"/>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <!-- Puffy cloud -->
+  <path d="M30 66c-11.5 0-21-9-21-20 0-10.6 7-19.3 16.7-20.7C28 15 38.6 8.5 50.5 8.5c13 0 23.9 9.7 25.8 22.4C88.5 32 99 42.5 99 55c0 12.8-10.8 23-23.7 23H30Z" fill="#f4fbff" stroke="#d2ecfa" stroke-width="3" stroke-linejoin="round"/>
   <!-- Snowflakes -->
-  <g stroke="#E0F2FE" stroke-width="2" stroke-linecap="round" fill="#E0F2FE">
-    <!-- Snowflake 1 -->
-    <g transform="translate(20, 36)">
-      <line x1="0" y1="-4" x2="0" y2="4"/>
-      <line x1="-4" y1="0" x2="4" y2="0"/>
-      <line x1="-3" y1="-3" x2="3" y2="3"/>
-      <line x1="-3" y1="3" x2="3" y2="-3"/>
+  <g stroke="#cfe6ff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="#dff1ff">
+    <g transform="translate(32 82)">
+      <circle r="3"/>
+      <line x1="0" y1="-9" x2="0" y2="9"/>
+      <line x1="-9" y1="0" x2="9" y2="0"/>
+      <line x1="-6" y1="-6" x2="6" y2="6"/>
+      <line x1="-6" y1="6" x2="6" y2="-6"/>
     </g>
-    <!-- Snowflake 2 -->
-    <g transform="translate(32, 34)">
-      <line x1="0" y1="-4" x2="0" y2="4"/>
-      <line x1="-4" y1="0" x2="4" y2="0"/>
-      <line x1="-3" y1="-3" x2="3" y2="3"/>
-      <line x1="-3" y1="3" x2="3" y2="-3"/>
+    <g transform="translate(54 88)">
+      <circle r="3"/>
+      <line x1="0" y1="-9" x2="0" y2="9"/>
+      <line x1="-9" y1="0" x2="9" y2="0"/>
+      <line x1="-6" y1="-6" x2="6" y2="6"/>
+      <line x1="-6" y1="6" x2="6" y2="-6"/>
     </g>
-    <!-- Snowflake 3 -->
-    <g transform="translate(44, 36)">
-      <line x1="0" y1="-4" x2="0" y2="4"/>
-      <line x1="-4" y1="0" x2="4" y2="0"/>
-      <line x1="-3" y1="-3" x2="3" y2="3"/>
-      <line x1="-3" y1="3" x2="3" y2="-3"/>
-    </g>
-    <!-- Snowflake 4 -->
-    <g transform="translate(26, 48)">
-      <line x1="0" y1="-4" x2="0" y2="4"/>
-      <line x1="-4" y1="0" x2="4" y2="0"/>
-      <line x1="-3" y1="-3" x2="3" y2="3"/>
-      <line x1="-3" y1="3" x2="3" y2="-3"/>
-    </g>
-    <!-- Snowflake 5 -->
-    <g transform="translate(38, 50)">
-      <line x1="0" y1="-4" x2="0" y2="4"/>
-      <line x1="-4" y1="0" x2="4" y2="0"/>
-      <line x1="-3" y1="-3" x2="3" y2="3"/>
-      <line x1="-3" y1="3" x2="3" y2="-3"/>
+    <g transform="translate(76 82)">
+      <circle r="3"/>
+      <line x1="0" y1="-9" x2="0" y2="9"/>
+      <line x1="-9" y1="0" x2="9" y2="0"/>
+      <line x1="-6" y1="-6" x2="6" y2="6"/>
+      <line x1="-6" y1="6" x2="6" y2="-6"/>
     </g>
   </g>
 </svg>

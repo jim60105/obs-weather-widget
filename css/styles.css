@@ -1,4 +1,15 @@
-/* Widget specific styles */
+/* Widget specific styles inspired by the pastel art reference */
+
+:root {
+    --sky-top: #dff3ff;
+    --sky-bottom: #c6e7fb;
+    --sunshine: #f7c266;
+    --cloud: #f4fbff;
+    --text-main: #5b4636;
+    --text-soft: #7a6b5c;
+    --outline: #d2ecfa;
+    --shadow: 0 18px 40px rgba(157, 197, 226, 0.35);
+}
 
 /* Ensure transparent background for OBS */
 html, body {
@@ -6,25 +17,116 @@ html, body {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    font-family: "Hachi Maru Pop", cursive;
+    font-family: "Hachi Maru Pop", "Noto Sans TC", cursive;
+    color: var(--text-main);
 }
 
-/* Weather card styling */
-.weather-card {
-    /* Add subtle text shadow for readability on any background */
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 12px;
+}
+
+#loading {
+    min-height: 200px;
+}
+
+.loader-ring {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 9999px;
+    border: 6px solid var(--outline);
+    border-top-color: var(--sunshine);
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.widget-card {
+    width: min(420px, 100%);
+    border-radius: 32px;
+    background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-bottom) 54%, #ffffff 54%, #ffffff 100%);
+    border: 2px solid var(--outline);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: opacity 0.35s ease-in-out;
+}
+
+.widget-hero {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 16px;
+    padding: 22px 22px 12px;
+    align-items: center;
+}
+
+.icon-bubble {
+    position: relative;
+    width: 110px;
+    height: 110px;
+    display: grid;
+    place-items: center;
+}
+
+.icon-bubble img {
+    position: relative;
+    z-index: 1;
+    width: 78px;
+    height: 78px;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.08));
+    transition: transform 0.35s ease;
+}
+
+.icon-bubble:hover img {
+    transform: scale(1.05) translateY(-3px);
+}
+
+.hero-text .label {
+    font-size: 0.85rem;
+    color: var(--text-soft);
+    letter-spacing: 0.04em;
+}
+
+.hero-text h1 {
+    margin: 6px 0 4px;
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+.hero-text .description {
+    font-size: 1.05rem;
+    color: var(--text-main);
+}
+
+.temp-main {
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--text-main);
+    margin-top: 10px;
+}
+
+.temp-range {
+    margin-top: 6px;
+    color: var(--text-soft);
+    font-size: 0.95rem;
+}
+
+.error-card {
+    background: linear-gradient(180deg, #ffe2e2 0%, #fff 100%);
+    border: 2px solid #ffd1d1;
+    border-radius: 24px;
+    padding: 18px;
+    color: #8b3a3a;
+    box-shadow: 0 12px 32px rgba(255, 146, 146, 0.25);
 }
 
 /* Smooth transitions for cycling */
 #weather-display {
-    transition: opacity 0.3s ease-in-out;
-}
-
-/* Animation for weather icon */
-#weather-icon img {
-    transition: transform 0.3s ease;
-}
-
-#weather-icon img:hover {
-    transform: scale(1.1);
+    transition: opacity 0.35s ease-in-out;
 }

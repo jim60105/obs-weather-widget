@@ -1,17 +1,24 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
-  <!-- Sun rays (partial, behind cloud) -->
-  <g stroke="#FFB800" stroke-width="2.5" stroke-linecap="round">
-    <line x1="42" y1="8" x2="42" y2="14"/>
-    <line x1="54" y1="14" x2="49.5" y2="18.5"/>
-    <line x1="56" y1="26" x2="50" y2="26"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <defs>
+    <linearGradient id="sun-peek" x1="60" y1="26" x2="98" y2="64" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffe6b5"/>
+      <stop offset="1" stop-color="#f6c163"/>
+    </linearGradient>
+  </defs>
+  <!-- Sun peeking -->
+  <g stroke="#f3b45a" stroke-width="5" stroke-linecap="round" opacity="0.9">
+    <line x1="86" y1="18" x2="86" y2="30"/>
+    <line x1="102" y1="30" x2="94" y2="36"/>
+    <line x1="108" y1="46" x2="98" y2="46"/>
+    <line x1="102" y1="62" x2="94" y2="56"/>
   </g>
-  <!-- Sun circle (partial) -->
-  <circle cx="42" cy="26" r="9" fill="#FFB800"/>
-  <!-- Cloud -->
-  <g fill="#B8C5D6">
-    <ellipse cx="24" cy="36" rx="10" ry="8"/>
-    <ellipse cx="34" cy="34" rx="9" ry="7"/>
-    <ellipse cx="42" cy="36" rx="8" ry="6"/>
-    <rect x="16" y="36" width="32" height="8" rx="2"/>
+  <g clip-path="url(#sunCut)">
+    <circle cx="86" cy="46" r="22" fill="url(#sun-peek)" stroke="#f3b45a" stroke-width="3.5"/>
   </g>
+  <clipPath id="sunCut">
+    <rect x="50" y="8" width="72" height="54"/>
+  </clipPath>
+  <!-- Cloud foreground -->
+  <path d="M38 86c-13 0-23-9.6-23-21.3 0-10 6.3-18.5 15.9-20.6C33.5 34 42 28 52.2 28c12 0 22 8.2 24.4 19.2C87.6 48 96 56.5 96 67c0 10.5-9.4 19-20.9 19H38Z" fill="#f4fbff" stroke="#d2ecfa" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M52 58c-1.5 0-3.4.3-4.5 1.5-.9 1.1-1.2 2.6-1.2 4 0 .8-.6 1.5-1.4 1.5s-1.4-.7-1.4-1.5c0-2 0-4.5 1.6-6.2C46.5 56 49 55 52 55c3 0 5.5 1 7 2.5 1.7 1.7 1.8 4.2 1.8 6.2 0 .8-.6 1.5-1.4 1.5s-1.4-.7-1.4-1.5c0-1.4-.3-2.9-1.2-4C55.4 58.3 53.5 58 52 58Z" fill="#e6f4ff"/>
 </svg>

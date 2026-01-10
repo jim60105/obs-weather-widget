@@ -1,21 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
-  <!-- Cloud -->
-  <g fill="#94A3B8">
-    <ellipse cx="24" cy="18" rx="10" ry="8"/>
-    <ellipse cx="34" cy="16" rx="9" ry="7"/>
-    <ellipse cx="42" cy="18" rx="8" ry="6"/>
-    <rect x="16" y="18" width="32" height="8" rx="2"/>
-  </g>
-  <!-- Rain drops (larger, denser) -->
-  <g stroke="#3B82F6" stroke-width="2.5" stroke-linecap="round">
-    <line x1="18" y1="32" x2="16" y2="42"/>
-    <line x1="24" y1="30" x2="22" y2="40"/>
-    <line x1="30" y1="32" x2="28" y2="42"/>
-    <line x1="36" y1="30" x2="34" y2="40"/>
-    <line x1="42" y1="32" x2="40" y2="42"/>
-    <line x1="48" y1="30" x2="46" y2="40"/>
-    <line x1="21" y1="44" x2="19" y2="54"/>
-    <line x1="33" y1="44" x2="31" y2="54"/>
-    <line x1="45" y1="44" x2="43" y2="54"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <!-- Cozy cloud -->
+  <path d="M32 66c-11 0-20-8.5-20-19 0-10 6.7-18.6 16.2-20.2C30 16 40.3 10 51.5 10 64.2 10 75 19.5 77.1 32 89.3 32.7 99 42.8 99 55c0 12.2-10.3 22-22.7 22H32Z" fill="#e9f4ff" stroke="#d2ecfa" stroke-width="3" stroke-linejoin="round"/>
+  <!-- Rain -->
+  <g stroke="#73bcff" stroke-width="5" stroke-linecap="round">
+    <line x1="30" y1="78" x2="24" y2="94"/>
+    <line x1="46" y1="76" x2="40" y2="94"/>
+    <line x1="62" y1="78" x2="56" y2="96"/>
+    <line x1="78" y1="76" x2="72" y2="94"/>
+    <line x1="94" y1="78" x2="88" y2="96"/>
   </g>
 </svg>

@@ -157,6 +157,24 @@ function getWeatherIconPath(code) {
     return `icons/weather/${getWeatherIcon(code)}`;
 }
 
+/**
+ * Get friendly weather description for UI
+ * @param {number} code - WMO weather interpretation code
+ * @returns {string} Friendly description
+ */
+function getWeatherDescription(code) {
+    if (code === 0) return '晴朗溫暖';
+    if ([1, 2, 3].includes(code)) return '多雲時晴';
+    if ([45, 48].includes(code)) return '霧氣朦朧';
+    if ([51, 53, 55, 56, 57].includes(code)) return '細雨綿綿';
+    if ([61, 63, 65, 66, 67].includes(code)) return '輕柔降雨';
+    if ([71, 73, 75, 77].includes(code)) return '浪漫飄雪';
+    if ([80, 81, 82].includes(code)) return '陣雨來訪';
+    if ([85, 86].includes(code)) return '陣雪飄落';
+    if ([95, 96, 99].includes(code)) return '雷雨活力';
+    return '天氣更新中';
+}
+
 // Export functions for use in other modules
 // Using ES6 module syntax or global scope depending on project setup
 if (typeof module !== 'undefined' && module.exports) {
@@ -166,7 +184,8 @@ if (typeof module !== 'undefined' && module.exports) {
         fetchWeather,
         fetchWeatherForLocations,
         getWeatherIcon,
-        getWeatherIconPath
+        getWeatherIconPath,
+        getWeatherDescription
     };
 } else {
     // Browser environment - expose to global scope
@@ -175,6 +194,7 @@ if (typeof module !== 'undefined' && module.exports) {
         fetchWeather,
         fetchWeatherForLocations,
         getWeatherIcon,
-        getWeatherIconPath
+        getWeatherIconPath,
+        getWeatherDescription
     };
 }

@@ -1,15 +1,30 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
-  <!-- Sun circle -->
-  <circle cx="32" cy="32" r="12" fill="#FFB800"/>
-  <!-- Sun rays -->
-  <g stroke="#FFB800" stroke-width="3" stroke-linecap="round">
-    <line x1="32" y1="6" x2="32" y2="14"/>
-    <line x1="32" y1="50" x2="32" y2="58"/>
-    <line x1="6" y1="32" x2="14" y2="32"/>
-    <line x1="50" y1="32" x2="58" y2="32"/>
-    <line x1="13.5" y1="13.5" x2="19.2" y2="19.2"/>
-    <line x1="44.8" y1="44.8" x2="50.5" y2="50.5"/>
-    <line x1="13.5" y1="50.5" x2="19.2" y2="44.8"/>
-    <line x1="44.8" y1="19.2" x2="50.5" y2="13.5"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <defs>
+    <linearGradient id="sun-core" x1="32" y1="24" x2="90" y2="96" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffdba2"/>
+      <stop offset="1" stop-color="#f7c266"/>
+    </linearGradient>
+  </defs>
+  <!-- Soft rays -->
+  <g stroke="#f3b45a" stroke-width="6" stroke-linecap="round" opacity="0.9">
+    <line x1="60" y1="16" x2="60" y2="32"/>
+    <line x1="60" y1="88" x2="60" y2="104"/>
+    <line x1="16" y1="60" x2="32" y2="60"/>
+    <line x1="88" y1="60" x2="104" y2="60"/>
+    <line x1="28" y1="28" x2="40" y2="40"/>
+    <line x1="80" y1="80" x2="92" y2="92"/>
+    <line x1="28" y1="92" x2="40" y2="80"/>
+    <line x1="80" y1="40" x2="92" y2="28"/>
+  </g>
+  <!-- Sunny face -->
+  <circle cx="60" cy="60" r="30" fill="url(#sun-core)" stroke="#f3b45a" stroke-width="3.5"/>
+  <g fill="#5b4636">
+    <circle cx="52" cy="56" r="3"/>
+    <circle cx="68" cy="56" r="3"/>
+    <path d="M50 66 Q60 74 70 66" stroke="#5b4636" stroke-width="3" stroke-linecap="round" fill="none"/>
+  </g>
+  <g fill="#f38a7a" opacity="0.85">
+    <circle cx="48" cy="62" r="3.5"/>
+    <circle cx="72" cy="62" r="3.5"/>
   </g>
 </svg>

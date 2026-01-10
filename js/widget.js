@@ -76,16 +76,21 @@ function updateDisplay() {
         tempMax: data.weather.temperature_2m_max[1],
         tempMin: data.weather.temperature_2m_min[1]
     };
-    
+
+    const unitSymbol = state.unit === 'fahrenheit' ? '°F' : '°C';
+    const description = getWeatherDescription(tomorrow.weatherCode);
+
     // Update DOM elements
     document.getElementById('place-name').textContent = data.name;
-    document.getElementById('temp-max').textContent = `${Math.round(tomorrow.tempMax)}°`;
-    document.getElementById('temp-min').textContent = `${Math.round(tomorrow.tempMin)}°`;
+    document.getElementById('description').textContent = description;
+    document.getElementById('temp-main').textContent = `${Math.round(tomorrow.tempMax)}${unitSymbol}`;
+    document.getElementById('temp-max').textContent = `${Math.round(tomorrow.tempMax)}${unitSymbol}`;
+    document.getElementById('temp-min').textContent = `${Math.round(tomorrow.tempMin)}${unitSymbol}`;
     
     // Update weather icon
     const iconPath = getWeatherIconPath(tomorrow.weatherCode);
     document.querySelector('#weather-icon img').src = iconPath;
-    document.querySelector('#weather-icon img').alt = `Weather code ${tomorrow.weatherCode}`;
+    document.querySelector('#weather-icon img').alt = description;
 }
 
 /**

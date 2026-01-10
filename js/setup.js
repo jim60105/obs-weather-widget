@@ -81,7 +81,7 @@ async function handleSearch() {
         displaySearchResults(results);
     } catch (error) {
         console.error('Search failed:', error);
-        elements.resultsList.innerHTML = '<li class="text-red-400">搜尋失敗，請稍後再試</li>';
+        elements.resultsList.innerHTML = '<li class="text-[#c0392b]">搜尋失敗，請稍後再試</li>';
         elements.searchResults.classList.remove('hidden');
     }
 }
@@ -91,19 +91,19 @@ async function handleSearch() {
  */
 function displaySearchResults(results) {
     if (!results || results.length === 0) {
-        elements.resultsList.innerHTML = '<li class="text-gray-500">找不到符合的地點</li>';
+        elements.resultsList.innerHTML = '<li class="text-[#8a7a68]">找不到符合的地點</li>';
         elements.searchResults.classList.remove('hidden');
         return;
     }
 
     elements.resultsList.innerHTML = results.map((loc, index) => `
-        <li class="flex justify-between items-center bg-gray-700 rounded px-4 py-2">
-            <div>
-                <span class="font-medium">${loc.name}</span>
-                <span class="text-gray-400 text-sm">, ${loc.country || ''}</span>
-                <span class="text-gray-500 text-xs ml-2">(${loc.latitude.toFixed(4)}, ${loc.longitude.toFixed(4)})</span>
+        <li class="flex justify-between items-center bg-[#f1f8ff] border border-[#d2ecfa] rounded-2xl px-4 py-3 shadow-sm">
+            <div class="text-[#4b3828]">
+                <span class="font-semibold">${loc.name}</span>
+                <span class="text-[#7a6b5c] text-sm">, ${loc.country || ''}</span>
+                <span class="text-[#9aa8b2] text-xs ml-2">(${loc.latitude.toFixed(4)}, ${loc.longitude.toFixed(4)})</span>
             </div>
-            <button class="select-location-btn px-3 py-1 bg-blue-600 hover:bg-blue-700 rounded text-sm transition-colors"
+            <button class="select-location-btn px-3 py-2 bg-[#8ed1ff] hover:bg-[#a7ddff] rounded-full text-sm font-semibold text-[#2f3c4a] shadow-md transition-colors"
                     data-index="${index}">
                 選擇
             </button>
@@ -193,12 +193,12 @@ function updateLocationList() {
     elements.locationList.classList.remove('hidden');
 
     elements.locationList.innerHTML = setupState.locations.map((loc, index) => `
-        <li class="flex justify-between items-center bg-gray-700 rounded px-4 py-2">
-            <div>
-                <span class="font-medium">${index + 1}. ${loc.name}</span>
-                <span class="text-gray-500 text-sm ml-2">(${loc.lat}, ${loc.lon})</span>
+        <li class="flex justify-between items-center bg-[#fefaf1] border border-[#f6e2b8] rounded-2xl px-4 py-3 shadow-sm">
+            <div class="text-[#4b3828]">
+                <span class="font-semibold">${index + 1}. ${loc.name}</span>
+                <span class="text-[#9b8b78] text-sm ml-2">(${loc.lat}, ${loc.lon})</span>
             </div>
-            <button class="remove-location-btn px-3 py-1 bg-red-600 hover:bg-red-700 rounded text-sm transition-colors"
+            <button class="remove-location-btn px-3 py-2 bg-[#ffb3b3] hover:bg-[#ffc7c7] rounded-full text-sm font-semibold text-[#6b2b2b] shadow-md transition-colors"
                     data-index="${index}">
                 刪除
             </button>
@@ -214,7 +214,7 @@ function generateWidgetUrl() {
         return '';
     }
 
-    const baseUrl = new URL('widget.html', window.location.href);
+    const baseUrl = new URL('widget', window.location.href);
     const params = new URLSearchParams();
     
     params.set('locations', JSON.stringify(setupState.locations));

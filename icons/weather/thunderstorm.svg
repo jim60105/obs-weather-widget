@@ -1,18 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
-  <!-- Dark storm cloud -->
-  <g fill="#64748B">
-    <ellipse cx="22" cy="16" rx="11" ry="9"/>
-    <ellipse cx="34" cy="14" rx="10" ry="8"/>
-    <ellipse cx="44" cy="16" rx="9" ry="7"/>
-    <rect x="14" y="16" width="36" height="10" rx="2"/>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <!-- Moody cloud -->
+  <path d="M30 64c-11.5 0-21-9-21-20 0-10.4 7-19 16.4-20.6C28 13.6 38.6 7 50.6 7 63.8 7 74.6 17 76.7 29.8 89 30.5 99 40.8 99 53.3 99 66 88.2 76 75.4 76H30Z" fill="#d7e3ef" stroke="#c3d4e3" stroke-width="3" stroke-linejoin="round"/>
   <!-- Lightning bolt -->
-  <path d="M 34 28 L 28 40 L 33 40 L 30 54 L 40 38 L 35 38 L 38 28 Z" fill="#FBBF24" stroke="#F59E0B" stroke-width="1"/>
-  <!-- Rain drops -->
-  <g stroke="#3B82F6" stroke-width="2.5" stroke-linecap="round">
-    <line x1="16" y1="32" x2="14" y2="40"/>
-    <line x1="22" y1="34" x2="20" y2="42"/>
-    <line x1="44" y1="32" x2="42" y2="40"/>
-    <line x1="50" y1="34" x2="48" y2="42"/>
+  <path d="M64 74l-12 18h10l-7 20 19-26h-10l10-18z" fill="#f7c74f" stroke="#e6b643" stroke-width="3" stroke-linejoin="round"/>
+  <!-- Raindrops -->
+  <g stroke="#73bcff" stroke-width="5" stroke-linecap="round">
+    <line x1="34" y1="82" x2="28" y2="98"/>
+    <line x1="50" y1="80" x2="44" y2="98"/>
+    <line x1="82" y1="82" x2="76" y2="98"/>
+    <line x1="98" y1="80" x2="92" y2="98"/>
   </g>
 </svg>

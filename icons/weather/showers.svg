@@ -1,21 +1,30 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
-  <!-- Larger rain cloud -->
-  <g fill="#94A3B8">
-    <ellipse cx="22" cy="18" rx="11" ry="9"/>
-    <ellipse cx="34" cy="16" rx="10" ry="8"/>
-    <ellipse cx="44" cy="18" rx="9" ry="7"/>
-    <rect x="14" y="18" width="36" height="10" rx="2"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <defs>
+    <linearGradient id="sun-shower" x1="86" y1="18" x2="110" y2="50" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffe6b5"/>
+      <stop offset="1" stop-color="#f7c266"/>
+    </linearGradient>
+  </defs>
+  <!-- Peeking sun -->
+  <g stroke="#f3b45a" stroke-width="4.5" stroke-linecap="round" opacity="0.9">
+    <line x1="98" y1="18" x2="98" y2="28"/>
+    <line x1="112" y1="30" x2="104" y2="36"/>
+    <line x1="116" y1="46" x2="106" y2="46"/>
+    <line x1="112" y1="62" x2="104" y2="56"/>
   </g>
-  <!-- Heavy rain showers (dense, angled) -->
-  <g stroke="#3B82F6" stroke-width="3" stroke-linecap="round">
-    <line x1="16" y1="34" x2="13" y2="46"/>
-    <line x1="22" y1="32" x2="19" y2="44"/>
-    <line x1="28" y1="34" x2="25" y2="46"/>
-    <line x1="34" y1="32" x2="31" y2="44"/>
-    <line x1="40" y1="34" x2="37" y2="46"/>
-    <line x1="46" y1="32" x2="43" y2="44"/>
-    <line x1="19" y1="48" x2="16" y2="58"/>
-    <line x1="28" y1="48" x2="25" y2="58"/>
-    <line x1="37" y1="48" x2="34" y2="58"/>
+  <g clip-path="url(#sunClip)">
+    <circle cx="100" cy="44" r="18" fill="url(#sun-shower)" stroke="#f3b45a" stroke-width="3"/>
+  </g>
+  <clipPath id="sunClip">
+    <rect x="64" y="6" width="72" height="50"/>
+  </clipPath>
+  <!-- Cloud -->
+  <path d="M30 66c-12 0-21.5-9.2-21.5-20.5 0-10.3 6.7-18.9 16.2-20.4C28 15.5 38.2 9 49.2 9 62.4 9 73 19.3 75.1 32c12.2.6 22 10.6 22 23 0 12.7-10.6 23-23.7 23H30Z" fill="#e9f4ff" stroke="#d2ecfa" stroke-width="3" stroke-linejoin="round"/>
+  <!-- Showers -->
+  <g stroke="#73bcff" stroke-width="5" stroke-linecap="round">
+    <line x1="30" y1="82" x2="25" y2="100"/>
+    <line x1="48" y1="78" x2="42" y2="98"/>
+    <line x1="66" y1="82" x2="60" y2="102"/>
+    <line x1="84" y1="78" x2="78" y2="98"/>
   </g>
 </svg>
