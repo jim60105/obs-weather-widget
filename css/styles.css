@@ -1,0 +1,29 @@
+/* Widget specific styles */
+
+/* Ensure transparent background for OBS */
+html, body {
+    background: transparent !important;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+/* Weather card styling */
+.weather-card {
+    /* Add subtle text shadow for readability on any background */
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* Smooth transitions for cycling */
+#weather-display {
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Animation for weather icon */
+#weather-icon img {
+    transition: transform 0.3s ease;
+}
+
+#weather-icon img:hover {
+    transform: scale(1.1);
+}
