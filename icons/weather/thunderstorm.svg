@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Dark storm cloud -->
+  <g fill="#64748B">
+    <ellipse cx="22" cy="16" rx="11" ry="9"/>
+    <ellipse cx="34" cy="14" rx="10" ry="8"/>
+    <ellipse cx="44" cy="16" rx="9" ry="7"/>
+    <rect x="14" y="16" width="36" height="10" rx="2"/>
+  </g>
+  <!-- Lightning bolt -->
+  <path d="M 34 28 L 28 40 L 33 40 L 30 54 L 40 38 L 35 38 L 38 28 Z" fill="#FBBF24" stroke="#F59E0B" stroke-width="1"/>
+  <!-- Rain drops -->
+  <g stroke="#3B82F6" stroke-width="2.5" stroke-linecap="round">
+    <line x1="16" y1="32" x2="14" y2="40"/>
+    <line x1="22" y1="34" x2="20" y2="42"/>
+    <line x1="44" y1="32" x2="42" y2="40"/>
+    <line x1="50" y1="34" x2="48" y2="42"/>
+  </g>
+</svg>

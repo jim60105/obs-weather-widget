@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Icons Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background: #f8f9fa;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 40px;
+        }
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        .icon-item {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .icon-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        }
+        .icon-item img {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 15px;
+        }
+        .icon-name {
+            font-weight: 600;
+            color: #333;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+        .icon-codes {
+            color: #666;
+            font-size: 14px;
+            font-family: 'Courier New', monospace;
+        }
+        .size-test {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+        .size-test h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        .size-row {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin: 15px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .size-label {
+            font-weight: 600;
+            color: #666;
+            width: 60px;
+        }
+        .dark-bg {
+            background: #1a1a1a;
+            padding: 30px;
+            border-radius: 12px;
+            margin-top: 40px;
+        }
+        .dark-bg h2 {
+            color: white;
+            margin-top: 0;
+        }
+        .dark-bg .icon-grid {
+            margin-bottom: 0;
+        }
+        .dark-bg .icon-item {
+            background: #2a2a2a;
+        }
+        .dark-bg .icon-name {
+            color: #fff;
+        }
+        .dark-bg .icon-codes {
+            color: #aaa;
+        }
+    </style>
+    <script src="js/api.js"></script>
+</head>
+<body>
+    <h1>🌤️ Weather Icons Test</h1>
+
+    <div class="size-test">
+        <h2>Size Test (clear.svg at different sizes)</h2>
+        <div class="size-row">
+            <span class="size-label">32px:</span>
+            <img src="icons/weather/clear.svg" width="32" height="32" alt="Clear 32px">
+        </div>
+        <div class="size-row">
+            <span class="size-label">48px:</span>
+            <img src="icons/weather/clear.svg" width="48" height="48" alt="Clear 48px">
+        </div>
+        <div class="size-row">
+            <span class="size-label">64px:</span>
+            <img src="icons/weather/clear.svg" width="64" height="64" alt="Clear 64px">
+        </div>
+        <div class="size-row">
+            <span class="size-label">96px:</span>
+            <img src="icons/weather/clear.svg" width="96" height="96" alt="Clear 96px">
+        </div>
+    </div>
+
+    <h2 style="margin-bottom: 20px; color: #333;">All Weather Icons</h2>
+    <div class="icon-grid">
+        <div class="icon-item">
+            <img src="icons/weather/clear.svg" alt="Clear">
+            <div class="icon-name">Clear Sky</div>
+            <div class="icon-codes">Code: 0</div>
+        </div>
+        <div class="icon-item">
+            <img src="icons/weather/partly-cloudy.svg" alt="Partly Cloudy">
+            <div class="icon-name">Partly Cloudy</div>
+            <div class="icon-codes">Codes: 1, 2, 3</div>
+        </div>
+        <div class="icon-item">
+            <img src="icons/weather/fog.svg" alt="Fog">
+            <div class="icon-name">Fog</div>
+            <div class="icon-codes">Codes: 45, 48</div>
+        </div>
+        <div class="icon-item">
+            <img src="icons/weather/drizzle.svg" alt="Drizzle">
+            <div class="icon-name">Drizzle</div>
+            <div class="icon-codes">Codes: 51-57</div>
+        </div>
+        <div class="icon-item">
+            <img src="icons/weather/rain.svg" alt="Rain">
+            <div class="icon-name">Rain</div>
+            <div class="icon-codes">Codes: 61-67</div>
+        </div>
+        <div class="icon-item">
+            <img src="icons/weather/snow.svg" alt="Snow">
+            <div class="icon-name">Snow</div>
+            <div class="icon-codes">Codes: 71-77</div>
+        </div>
+        <div class="icon-item">
+            <img src="icons/weather/showers.svg" alt="Showers">
+            <div class="icon-name">Rain Showers</div>
+            <div class="icon-codes">Codes: 80-82</div>
+        </div>
+        <div class="icon-item">
+            <img src="icons/weather/snow-showers.svg" alt="Snow Showers">
+            <div class="icon-name">Snow Showers</div>
+            <div class="icon-codes">Codes: 85, 86</div>
+        </div>
+        <div class="icon-item">
+            <img src="icons/weather/thunderstorm.svg" alt="Thunderstorm">
+            <div class="icon-name">Thunderstorm</div>
+            <div class="icon-codes">Codes: 95, 96, 99</div>
+        </div>
+        <div class="icon-item">
+            <img src="icons/weather/unknown.svg" alt="Unknown">
+            <div class="icon-name">Unknown</div>
+            <div class="icon-codes">Fallback</div>
+        </div>
+    </div>
+
+    <div class="dark-bg">
+        <h2>Dark Background Test (for OBS transparency)</h2>
+        <div class="icon-grid">
+            <div class="icon-item">
+                <img src="icons/weather/clear.svg" alt="Clear">
+                <div class="icon-name">Clear</div>
+            </div>
+            <div class="icon-item">
+                <img src="icons/weather/partly-cloudy.svg" alt="Partly Cloudy">
+                <div class="icon-name">Partly Cloudy</div>
+            </div>
+            <div class="icon-item">
+                <img src="icons/weather/fog.svg" alt="Fog">
+                <div class="icon-name">Fog</div>
+            </div>
+            <div class="icon-item">
+                <img src="icons/weather/rain.svg" alt="Rain">
+                <div class="icon-name">Rain</div>
+            </div>
+            <div class="icon-item">
+                <img src="icons/weather/snow.svg" alt="Snow">
+                <div class="icon-name">Snow</div>
+            </div>
+            <div class="icon-item">
+                <img src="icons/weather/thunderstorm.svg" alt="Thunderstorm">
+                <div class="icon-name">Thunderstorm</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Test the getWeatherIcon and getWeatherIconPath functions
+        console.log('Testing getWeatherIcon function:');
+        const testCodes = [0, 1, 2, 3, 45, 48, 51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 71, 73, 75, 77, 80, 81, 82, 85, 86, 95, 96, 99, 999];
+        
+        testCodes.forEach(code => {
+            const icon = WeatherAPI.getWeatherIcon(code);
+            const path = WeatherAPI.getWeatherIconPath(code);
+            console.log(`Code ${code}: ${icon} (${path})`);
+        });
+        
+        // Display results on page
+        const resultsDiv = document.createElement('div');
+        resultsDiv.className = 'size-test';
+        resultsDiv.innerHTML = '<h2>Function Mapping Test</h2>';
+        const table = document.createElement('table');
+        table.style.width = '100%';
+        table.style.borderCollapse = 'collapse';
+        table.innerHTML = `
+            <thead>
+                <tr style="background: #f8f9fa;">
+                    <th style="padding: 10px; text-align: left; border-bottom: 2px solid #dee2e6;">WMO Code</th>
+                    <th style="padding: 10px; text-align: left; border-bottom: 2px solid #dee2e6;">Icon File</th>
+                    <th style="padding: 10px; text-align: left; border-bottom: 2px solid #dee2e6;">Full Path</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${testCodes.map(code => {
+                    const icon = WeatherAPI.getWeatherIcon(code);
+                    const path = WeatherAPI.getWeatherIconPath(code);
+                    const isUnknown = icon === 'unknown.svg';
+                    return `
+                        <tr style="background: ${isUnknown ? '#fff3cd' : 'white'};">
+                            <td style="padding: 10px; border-bottom: 1px solid #dee2e6; font-family: monospace;">${code}</td>
+                            <td style="padding: 10px; border-bottom: 1px solid #dee2e6; font-family: monospace;">${icon}</td>
+                            <td style="padding: 10px; border-bottom: 1px solid #dee2e6; font-family: monospace; font-size: 12px;">${path}</td>
+                        </tr>
+                    `;
+                }).join('')}
+            </tbody>
+        `;
+        resultsDiv.appendChild(table);
+        document.body.appendChild(resultsDiv);
+    </script>
+</body>
+</html>
