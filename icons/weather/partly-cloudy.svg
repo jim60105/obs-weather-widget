@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Sun rays (partial, behind cloud) -->
+  <g stroke="#FFB800" stroke-width="2.5" stroke-linecap="round">
+    <line x1="42" y1="8" x2="42" y2="14"/>
+    <line x1="54" y1="14" x2="49.5" y2="18.5"/>
+    <line x1="56" y1="26" x2="50" y2="26"/>
+  </g>
+  <!-- Sun circle (partial) -->
+  <circle cx="42" cy="26" r="9" fill="#FFB800"/>
+  <!-- Cloud -->
+  <g fill="#B8C5D6">
+    <ellipse cx="24" cy="36" rx="10" ry="8"/>
+    <ellipse cx="34" cy="34" rx="9" ry="7"/>
+    <ellipse cx="42" cy="36" rx="8" ry="6"/>
+    <rect x="16" y="36" width="32" height="8" rx="2"/>
+  </g>
+</svg>

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Larger rain cloud -->
+  <g fill="#94A3B8">
+    <ellipse cx="22" cy="18" rx="11" ry="9"/>
+    <ellipse cx="34" cy="16" rx="10" ry="8"/>
+    <ellipse cx="44" cy="18" rx="9" ry="7"/>
+    <rect x="14" y="18" width="36" height="10" rx="2"/>
+  </g>
+  <!-- Heavy rain showers (dense, angled) -->
+  <g stroke="#3B82F6" stroke-width="3" stroke-linecap="round">
+    <line x1="16" y1="34" x2="13" y2="46"/>
+    <line x1="22" y1="32" x2="19" y2="44"/>
+    <line x1="28" y1="34" x2="25" y2="46"/>
+    <line x1="34" y1="32" x2="31" y2="44"/>
+    <line x1="40" y1="34" x2="37" y2="46"/>
+    <line x1="46" y1="32" x2="43" y2="44"/>
+    <line x1="19" y1="48" x2="16" y2="58"/>
+    <line x1="28" y1="48" x2="25" y2="58"/>
+    <line x1="37" y1="48" x2="34" y2="58"/>
+  </g>
+</svg>

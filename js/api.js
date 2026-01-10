@@ -108,6 +108,55 @@ async function fetchWeatherForLocations(locations, unit = 'celsius') {
     }
 }
 
+/**
+ * Get weather icon filename based on WMO weather code
+ * @param {number} code - WMO weather interpretation code
+ * @returns {string} Icon filename
+ */
+function getWeatherIcon(code) {
+    const iconMap = {
+        0: 'clear.svg',
+        1: 'partly-cloudy.svg',
+        2: 'partly-cloudy.svg',
+        3: 'partly-cloudy.svg',
+        45: 'fog.svg',
+        48: 'fog.svg',
+        51: 'drizzle.svg',
+        53: 'drizzle.svg',
+        55: 'drizzle.svg',
+        56: 'drizzle.svg',
+        57: 'drizzle.svg',
+        61: 'rain.svg',
+        63: 'rain.svg',
+        65: 'rain.svg',
+        66: 'rain.svg',
+        67: 'rain.svg',
+        71: 'snow.svg',
+        73: 'snow.svg',
+        75: 'snow.svg',
+        77: 'snow.svg',
+        80: 'showers.svg',
+        81: 'showers.svg',
+        82: 'showers.svg',
+        85: 'snow-showers.svg',
+        86: 'snow-showers.svg',
+        95: 'thunderstorm.svg',
+        96: 'thunderstorm.svg',
+        99: 'thunderstorm.svg'
+    };
+    
+    return iconMap[code] || 'unknown.svg';
+}
+
+/**
+ * Get full path to weather icon
+ * @param {number} code - WMO weather interpretation code
+ * @returns {string} Full icon path
+ */
+function getWeatherIconPath(code) {
+    return `icons/weather/${getWeatherIcon(code)}`;
+}
+
 // Export functions for use in other modules
 // Using ES6 module syntax or global scope depending on project setup
 if (typeof module !== 'undefined' && module.exports) {
@@ -115,13 +164,17 @@ if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
         searchLocation,
         fetchWeather,
-        fetchWeatherForLocations
+        fetchWeatherForLocations,
+        getWeatherIcon,
+        getWeatherIconPath
     };
 } else {
     // Browser environment - expose to global scope
     window.WeatherAPI = {
         searchLocation,
         fetchWeather,
-        fetchWeatherForLocations
+        fetchWeatherForLocations,
+        getWeatherIcon,
+        getWeatherIconPath
     };
 }

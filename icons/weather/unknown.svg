@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Circle background -->
+  <circle cx="32" cy="32" r="24" stroke="#94A3B8" stroke-width="3" fill="none"/>
+  <!-- Question mark -->
+  <g fill="#94A3B8">
+    <!-- Top curve of question mark -->
+    <path d="M 26 22 Q 26 16 32 16 Q 38 16 38 22 Q 38 26 34 28 L 32 30 L 32 36"/>
+    <!-- Dot of question mark -->
+    <circle cx="32" cy="44" r="2.5"/>
+  </g>
+  <g stroke="#94A3B8" stroke-width="3" stroke-linecap="round" fill="none">
+    <!-- Top curve stroke -->
+    <path d="M 26 22 Q 26 16 32 16 Q 38 16 38 22 Q 38 26 34 28 L 32 30 L 32 36"/>
+  </g>
+</svg>
