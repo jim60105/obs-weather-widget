@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Widget</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hachi+Maru+Pop&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-transparent">
+    <!-- Loading State -->
+    <div id="loading" class="flex items-center justify-center h-screen">
+        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+    </div>
+
+    <!-- Error State -->
+    <div id="error" class="hidden text-red-500 text-center p-4">
+        <p id="error-message">無法載入天氣資料</p>
+    </div>
+
+    <!-- Weather Display -->
+    <main id="weather-display" class="hidden">
+        <div class="weather-card flex items-center gap-4 p-4">
+            <!-- Weather Icon -->
+            <div id="weather-icon" class="w-16 h-16">
+                <img src="" alt="Weather icon" class="w-full h-full">
+            </div>
+            
+            <!-- Weather Info -->
+            <div class="weather-info">
+                <!-- Place Name -->
+                <h2 id="place-name" class="text-xl font-bold text-white"></h2>
+                
+                <!-- Temperature -->
+                <div id="temperature" class="text-lg text-white">
+                    <span id="temp-max"></span> / <span id="temp-min"></span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script src="js/widget.js"></script>
+</body>
+</html>
