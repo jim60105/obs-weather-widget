@@ -1,164 +1,162 @@
-# OBS Weather Widget
+# OBS 天氣小工具
 
-A transparent weather widget for OBS Studio browser sources, displaying weather forecasts with cycling location support.
+一個適用於 `OBS Studio` 瀏覽器來源的可愛風格天氣小工具，顯示明日天氣預報並支援多個地點輪播。
 
-## Features
+## 功能
 
-- 🌤️ Display tomorrow's weather forecast with intuitive SVG icons
-- 🌡️ Show temperature (溫度) and location name
-- 🔄 Cycle through multiple locations every 5 seconds
-- 🎨 Transparent background designed for OBS browser sources
-- 🔧 User-friendly setup page with live preview
-- 🌍 Global location support via geocoding
+- 🌤️ 顯示明日天氣預報，並搭配直覺的 `SVG` 圖示
+- 🌡️ 顯示溫度與地點名稱
+- 🔄 每數秒輪播多個地點
+- 🎨 為 `OBS` 瀏覽器來源設計的透明背景
+- 🔧 使用者友善的設定頁面，具備即時預覽
+- 🌍 支援全球地點搜尋（使用地理編碼）
 
-## Demo
+## 展示
 
-<!-- TODO: Add demo GIF or screenshot here -->
+<!-- TODO: 在此加入展示 GIF 或截圖 -->
 
-## Pages
+## 頁面說明
 
-### Setup Page (`/`)
+### 設定頁（`/`）
 
-The configuration interface where users can:
+設定介面包含：
 
-- Enter location by **latitude/longitude** or **place name** (geocoded automatically)
-- Define custom display names for each location
-- Add multiple locations to a cycling list
-- Preview the widget in an embedded iframe
-- Generate the widget URL with all parameters
+- 可透過 **緯度/經度** 或 **地名** 輸入地點（將自動以地理編碼解析）
+- 為每個地點定義自訂顯示名稱
+- 新增多個地點至輪播清單
+- 在內嵌 `iframe` 中即時預覽小工具
+- 產生包含所有參數的 Widget URL
 
-### Widget Page (`/widget.html`)
+### 小工具頁（`/widget.html`）
 
-The display page designed for OBS browser sources:
+為 `OBS` 瀏覽器來源設計的顯示頁：
 
-- Transparent background for seamless stream overlay
-- Shows tomorrow's weather forecast
-- Displays weather icon (SVG), temperature, and place name
-- Automatically cycles through configured locations every 5 seconds
+- 透明背景以便於串流覆蓋顯示
+- 顯示明日的天氣預報
+- 顯示天氣圖示、溫度與地名
+- 自動以預設或指定間隔（預設 5 秒）輪播已設定的地點
 
-## Usage
+## 使用方式
 
-### 1. Configure Your Widget
+### 1. 設定您的小工具
 
-1. Open the setup page in your browser
-2. Search for a location by name or enter coordinates manually
-3. Define a display name for the location
-4. Click "Add" to add the location to your list
-5. Repeat for additional locations
-6. Copy the generated widget URL
+1. 在瀏覽器中開啟設定頁面
+2. 以名稱搜尋地點或手動輸入座標
+3. 設定該地點的顯示名稱
+4. 點選「新增」將地點加入清單
+5. 重複上述步驟以加入更多地點
+6. 複製產生後的 Widget URL
 
-### 2. Add to OBS
+### 2. 加入 OBS
 
-1. In OBS Studio, add a new **Browser Source**
-2. Paste the widget URL into the URL field
-3. Set appropriate width and height (recommended: 300×150)
-4. The widget will display with a transparent background
+1. 在 `OBS Studio` 中新增一個 **Browser Source**
+2. 將 Widget URL 貼入 URL 欄位
+3. 設定合適的寬度與高度
+4. 小工具即會以透明背景顯示
 
-## API Integration
+## API 整合
 
-This project uses [Open-Meteo](https://open-meteo.com/) APIs:
+本專案使用 [Open-Meteo](https://open-meteo.com/) 的 API：
 
-| API              | Endpoint                                           | Purpose                            |
-| ---------------- | -------------------------------------------------- | ---------------------------------- |
-| Weather Forecast | `https://api.open-meteo.com/v1/forecast`           | Retrieve daily weather data        |
-| Geocoding        | `https://geocoding-api.open-meteo.com/v1/search`   | Convert place names to coordinates |
+| API      | Endpoint                                         | 用途             |
+| -------- | ------------------------------------------------ | ---------------- |
+| 天氣預報 | `https://api.open-meteo.com/v1/forecast`         | 取得每日天氣資料 |
+| 地理編碼 | `https://geocoding-api.open-meteo.com/v1/search` | 將地名轉換為座標 |
 
-### Weather Data Retrieved
+### 取得的天氣資料
 
-- `weather_code`: WMO weather interpretation code for icon selection
-- `temperature_2m_max` / `temperature_2m_min`: Daily temperature range
-- Daily forecast for tomorrow
+- `weather_code`：WMO 天氣判讀代碼，用於選取圖示
+- `temperature_2m_max` / `temperature_2m_min`：每日溫度範圍
+- 取用明日的每日預報資料
 
-### WMO Weather Codes
+### WMO 天氣代碼對照
 
-| Code       | Condition                               |
-| ---------- | --------------------------------------- |
-| 0          | Clear sky                               |
-| 1, 2, 3    | Mainly clear, partly cloudy, overcast   |
-| 45, 48     | Fog                                     |
-| 51, 53, 55 | Drizzle                                 |
-| 61, 63, 65 | Rain                                    |
-| 71, 73, 75 | Snow                                    |
-| 80, 81, 82 | Rain showers                            |
-| 85, 86     | Snow showers                            |
-| 95, 96, 99 | Thunderstorm                            |
+| 代碼       | 狀態說明               |
+| ---------- | ---------------------- |
+| 0          | 晴朗                   |
+| 1, 2, 3    | 大致晴、部分多雲、陰天 |
+| 45, 48     | 濃霧                   |
+| 51, 53, 55 | 毛毛雨（細雨）         |
+| 61, 63, 65 | 雨                     |
+| 71, 73, 75 | 雪                     |
+| 80, 81, 82 | 陣雨                   |
+| 85, 86     | 雪陣                   |
+| 95, 96, 99 | 雷暴                   |
 
-## URL Parameters
+## URL 參數
 
-The widget page accepts the following URL parameters:
+小工具頁接受以下 URL 參數：
 
-| Parameter   | Type        | Description                                                      |
-| ----------- | ----------- | ---------------------------------------------------------------- |
-| `locations` | JSON string | Array of location objects with `name`, `lat`, `lon`              |
-| `interval`  | number      | Cycling interval in milliseconds (default: 5000)                 |
-| `unit`      | string      | Temperature unit: `celsius` or `fahrenheit` (default: `celsius`) |
+| 參數        | 類型      | 說明                                                   |
+| ----------- | --------- | ------------------------------------------------------ |
+| `locations` | JSON 字串 | 包含 `name`、`lat`、`lon` 的地點物件陣列               |
+| `interval`  | number    | 輪播間隔，單位為毫秒（預設：5000）                     |
+| `unit`      | string    | 溫度單位：`celsius` 或 `fahrenheit`（預設：`celsius`） |
 
-Example:
+範例：
 
 ```text
 /widget.html?locations=[{"name":"台北","lat":25.0531,"lon":121.5264},{"name":"東京","lat":35.68952,"lon":139.6917}]
 ```
 
-## Tech Stack
+## 技術棧
 
-- **HTML5** with semantic elements
-- **Tailwind CSS** for styling
-- **Vanilla JavaScript (ES6+)** for functionality
-- **SVG** for weather icons
-- No build step required - pure static files
+- **HTML5**（語意化標記）
+- **Tailwind CSS**（樣式）
+- **Vanilla JavaScript（ES6+）**（功能實作）
+- **SVG**（天氣圖示）
+- 無需建構步驟，純靜態檔案
 
-## Project Structure
+## 專案結構
 
 ```text
 obs-weather-widget/
-├── index.html          # Setup page
-├── widget.html         # Widget display page
+├── index.html          # 設定頁面
+├── widget.html         # 小工具顯示頁
 ├── css/
-│   └── styles.css      # Tailwind CSS and custom styles
+│   └── styles.css      # Tailwind CSS 與自訂樣式
 ├── js/
-│   ├── setup.js        # Setup page logic
-│   ├── widget.js       # Widget display logic
-│   └── api.js          # Open-Meteo API integration
+│   ├── setup.js        # 設定頁邏輯
+│   ├── widget.js       # 小工具顯示與輪播邏輯
+│   └── api.js          # Open-Meteo API 包裝器
 ├── icons/
-│   └── weather/        # SVG weather icons
-├── AGENTS.md           # Copilot instructions
-├── LICENSE             # AGPL-3.0
+│   └── weather/        # WMO 天氣圖示
+├── AGENTS.md           # Copilot 使用說明
+├── LICENSE             # AGPL-3.0 授權條款
 └── README.md
 ```
 
-## Development
+## 開發
 
-### Prerequisites
+### 先決條件
 
-- A modern web browser
-- A local web server (e.g., `npx serve`, VS Code Live Server, or Python's `http.server`)
+- 現代的網頁瀏覽器
+- 本機網頁伺服器（例如：`npx serve`、VS Code Live Server、或 Python 的 `http.server`）
 
-### Running Locally
+### 在本機執行
 
 ```bash
-# Using npx serve
+# 使用 npx serve
 npx serve .
 
-# Or using Python
+# 或使用 Python
 python -m http.server 8000
 ```
 
-Then open `http://localhost:8000` in your browser.
-
-## License
+## 授權
 
 <img src="https://github.com/user-attachments/assets/38374bb8-9e65-482d-97d9-045a8d95b51b" alt="agplv3" width="300" />
 
 [GNU AFFERO GENERAL PUBLIC LICENSE Version 3](./LICENSE)
 
-Copyright (C) 2026 Jim Chen <Jim@ChenJ.im>.
+Copyright (C) 2026 Jim Chen <Jim@ChenJ.im>。
 
-This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+本程式為自由軟體：您可以依據由自由軟體基金會發布的 GNU Affero 通用公共授權條款（第 3 版，或您選擇的任何後續版本）重新發佈及/或修改本程式。
 
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
+本程式以期望其有用而發佈，但不提供任何保證；甚至不包含對適銷性或特定用途適用性的默示保證。詳情請參閱 GNU Affero 通用公共授權條款。
 
-You should have received a copy of the GNU Affero General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
+您應已隨本程式收到一份 GNU Affero 通用公共授權條款副本。如果沒有，請參見 <https://www.gnu.org/licenses/> 。
 
-## Acknowledgments
+## 致謝
 
-- Weather data provided by [Open-Meteo](https://open-meteo.com/)
+- 天氣資料由 [Open-Meteo](https://open-meteo.com/) 提供
