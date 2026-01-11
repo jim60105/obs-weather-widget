@@ -96,7 +96,7 @@
 範例：
 
 ```text
-/widget.html?locations=[{"name":"台北","lat":25.0531,"lon":121.5264},{"name":"東京","lat":35.68952,"lon":139.6917}]
+/widget?locations=[{"name":"台北","lat":25.0531,"lon":121.5264},{"name":"東京","lat":35.68952,"lon":139.6917}]
 ```
 
 ## 技術棧
@@ -104,26 +104,34 @@
 - **HTML5**（語意化標記）
 - **Tailwind CSS**（樣式）
 - **Vanilla JavaScript（ES6+）**（功能實作）
-- **SVG**（天氣圖示）
 - 無需建構步驟，純靜態檔案
 
 ## 專案結構
 
 ```text
 obs-weather-widget/
-├── index.html          # 設定頁面
-├── widget.html         # 小工具顯示頁
+├── index.html              # 設定頁面 (主入口)
+├── widget.html             # 小工具顯示頁
+├── site.webmanifest        # PWA manifest
+├── _headers                # Cloudflare Pages 標頭設定
+├── favicon.svg             # 網站圖示
+├── apple-touch-icon.png    # iOS 圖示
 ├── css/
-│   └── styles.css      # Tailwind CSS 與自訂樣式
+│   └── styles.css          # 小工具專用 CSS (含 CSS variables 與動畫)
 ├── js/
-│   ├── setup.js        # 設定頁邏輯
-│   ├── widget.js       # 小工具顯示與輪播邏輯
-│   └── api.js          # Open-Meteo API 包裝器
+│   ├── api.js              # Open-Meteo API 整合模組
+│   ├── setup.js            # 設定頁邏輯 (搜尋、新增、預覽、URL 產生)
+│   └── widget.js           # 小工具顯示與輪播邏輯
 ├── icons/
-│   └── weather/        # WMO 天氣圖示
-├── AGENTS.md           # Copilot 使用說明
-├── LICENSE             # AGPL-3.0 授權條款
-└── README.md
+│   └── weather/            # WMO 天氣圖示
+├── docs/
+│   └── API_USAGE.md        # API 模組使用範例與文件
+├── .github/
+│   └── instructions/
+│       └── web-design-guideline.instructions.md
+├── AGENTS.md               # Copilot 使用說明
+├── LICENSE                 # AGPL-3.0 授權條款
+└── README.md               # 本檔案
 ```
 
 ## 開發

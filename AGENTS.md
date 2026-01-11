@@ -2,185 +2,370 @@
 
 ## Project Overview
 
-This is a **static website** project that displays weather forecasts as a transparent widget for OBS Studio browser sources. The project consists of two main pages:
+This is a cute-style weather widget for OBS Studio browser sources, built as a pure static website without any build tools or server-side processing. The project consists of two main pages:
 
-1. **Setup Page** (`index.html`): Configuration interface for building widget parameters
-2. **Widget Page** (`widget.html`): Display page with transparent background for OBS
+1. **Setup Page** (`index.html`): Provides a user interface for configuring locations, options, and generating the widget URL
+2. **Widget Page** (`widget.html`): Transparent background weather display page for use as an OBS browser source
 
-The widget cycles through multiple locations, showing tomorrow's weather forecast including SVG icons, temperature, and place name.
+### Core Features
+
+- Display tomorrow's weather forecast (temperature range, weather conditions, cute icons)
+- Support multiple location cycling with customizable intervals
+- Transparent background design suitable for stream overlay
+- Support Celsius/Fahrenheit temperature switching
+- Use Open-Meteo's free API to fetch weather data
 
 ## Tech Stack
 
-- **HTML5**: Semantic markup
-- **Tailwind CSS**: Utility-first styling (via CDN)
-- **Vanilla JavaScript (ES6+)**: No frameworks or build tools
-- **SVG**: Weather icons
-- **No build step**: Pure static files served directly
+- **HTML5**: Semantic markup, ensuring accessibility
+- **Tailwind CSS**: Loaded via CDN, using utility-first styling approach
+- **Vanilla JavaScript (ES6+)**: No frameworks, pure JavaScript implementation
+- **Google Fonts**: Uses `UoqMunThenKhung` font to create a cute aesthetic
+- **No Build Process**: Serves static files directly, can be deployed to CDN or static hosting
 
 ## Project Structure
 
 ```text
 obs-weather-widget/
-├── index.html              # Setup page (entry point)
+├── index.html              # Setup page (main entry point)
 ├── widget.html             # Widget display page
+├── site.webmanifest        # PWA manifest
+├── _headers                # Cloudflare Pages header configuration
+├── favicon.svg             # Website icon
+├── apple-touch-icon.png    # iOS icon
 ├── css/
-│   └── styles.css          # Custom styles (Tailwind via CDN)
+│   └── styles.css          # Widget-specific CSS (includes CSS variables and animations)
 ├── js/
-│   ├── setup.js            # Setup page logic
-│   ├── widget.js           # Widget display and cycling logic
-│   └── api.js              # Open-Meteo API wrapper
+│   ├── api.js              # Open-Meteo API integration module
+│   ├── setup.js            # Setup page logic (search, add, preview, URL generation)
+│   └── widget.js           # Widget page logic (parse params, fetch weather, cycling)
 ├── icons/
-│   └── weather/            # SVG weather icons by WMO code
+│   └── weather/            # Weather icons (named by WMO code)
+├── docs/
+│   └── API_USAGE.md        # API module usage examples and documentation
 ├── .github/
 │   └── instructions/
 │       └── web-design-guideline.instructions.md
-├── AGENTS.md               # This file
-├── LICENSE                 # AGPL-3.0
-├── art-style-reference.png  # Design reference image
-└── README.md
+├── AGENTS.md               # This file (Copilot instructions)
+├── LICENSE                 # AGPL-3.0 license
+└── README.md               # Project documentation (Traditional Chinese)
 ```
 
-## API Integration
+## Architecture
+
+### API Module (`js/api.js`)
+
+Provides Open-Meteo API integration functions, accessible via `window.WeatherAPI` in browser environment:
+
+- `searchLocation(query, count, language)`: Geocoding search
+- `fetchWeather(lat, lon, unit)`: Fetch weather for a single location
+- `fetchWeatherForLocations(locations, unit)`: Fetch weather for multiple locations in parallel
+- `getWeatherIcon(code)`: Convert WMO code to filename
+- `getWeatherIconPath(code)`: Get full icon path
+- `getWeatherDescription(code)`: Get weather description in Traditional Chinese
+
+All functions use `async/await` and include error handling mechanisms.
+
+### Setup Page (`index.html` + `js/setup.js`)
+
+State management and interaction logic for the setup page:
+
+1. **Location Search**: Uses Geocoding API with debounce (300ms) to avoid excessive requests
+2. **Location Management**: Maintains `setupState.locations` array, supports add/remove operations
+3. **Live Preview**: Uses `<iframe>` to display widget preview, automatically updates when parameters change
+4. **URL Generator**: Encodes `locations`, `interval`, `unit` parameters into URL query string
+5. **Event Delegation**: Uses event delegation to handle dynamically generated button clicks
+
+### Widget Page (`widget.html` + `js/widget.js`)
+
+Core functionality of the widget page:
+
+1. **Parameter Parsing**: Parses `locations`, `interval`, `unit` parameters from URL
+2. **Weather Data Fetching**: Uses `fetchWeatherForLocations()` to fetch weather for all locations in parallel
+3. **Display Logic**: Always displays index 1 from `daily` arrays (tomorrow's forecast)
+4. **Cycling Mechanism**: Uses `setInterval()` to switch locations at specified intervals (default 5000ms)
+5. **State Management**: Maintains `state` object containing locations, weatherData, currentIndex, timer
+6. **Loading/Error States**: Provides three display states: loading, error, weather
+
+### Styling Approach
+
+- **Setup Page**: Uses Tailwind utility classes + inline styles to create cute aesthetic
+- **Widget Page**: `css/styles.css` contains dedicated styles, uses CSS variables to define color scheme
+- **Transparent Background**: `body { background: transparent !important; }` ensures OBS transparency
+- **Animation Effects**: Uses CSS transitions for smooth cycling and hover effects
+- **Responsive Design**: Uses Tailwind responsive prefixes (`md:`, `lg:`)
+
+## API Integration Details
 
 ### Weather Forecast API
 
-- **Endpoint**: `https://api.open-meteo.com/v1/forecast`
-- **Required Parameters**:
-  - `latitude`, `longitude`: Location coordinates
-  - `daily`: `weather_code,temperature_2m_max,temperature_2m_min`
-  - `timezone`: `auto`
-  - `forecast_days`: `2` (today + tomorrow)
-- **Response**: JSON with daily arrays for weather data
+```javascript
+// Endpoint
+https://api.open-meteo.com/v1/forecast
+
+// Parameters
+{
+  latitude: number,
+  longitude: number,
+  daily: "weather_code,temperature_2m_max,temperature_2m_min",
+  timezone: "auto",
+  forecast_days: 2,
+  temperature_unit: "celsius" | "fahrenheit"  // optional
+}
+
+// Response
+{
+  daily: {
+    time: ["2026-01-11", "2026-01-12"],
+    weather_code: [3, 61],
+    temperature_2m_max: [18.5, 15.2],
+    temperature_2m_min: [12.3, 10.1]
+  }
+}
+```
 
 ### Geocoding API
 
-- **Endpoint**: `https://geocoding-api.open-meteo.com/v1/search`
-- **Required Parameters**:
-  - `name`: Search string (location name)
-  - `count`: Number of results (default: 10)
-  - `language`: `en` or locale code
-- **Response**: JSON with `results` array containing location data
+```javascript
+// Endpoint
+https://geocoding-api.open-meteo.com/v1/search
 
-### WMO Weather Codes
+// Parameters
+{
+  name: string,      // search query
+  count: number,     // max results (default: 10)
+  language: string,  // e.g., "en", "zh"
+  format: "json"
+}
 
-Map these codes to appropriate SVG icons:
+// Response
+{
+  results: [
+    {
+      id: number,
+      name: string,
+      latitude: number,
+      longitude: number,
+      country: string,
+      admin1: string
+    }
+  ]
+}
+```
 
-| Code Range | Condition     | Icon Suggestion   |
-| ---------- | ------------- | ----------------- |
-| 0          | Clear sky     | sun.svg           |
-| 1-3        | Partly cloudy | partly-cloudy.svg |
-| 45, 48     | Fog           | fog.svg           |
-| 51-57      | Drizzle       | drizzle.svg       |
-| 61-67      | Rain          | rain.svg          |
-| 71-77      | Snow          | snow.svg          |
-| 80-82      | Rain showers  | showers.svg       |
-| 85-86      | Snow showers  | snow-showers.svg  |
-| 95-99      | Thunderstorm  | thunderstorm.svg  |
+### WMO Weather Codes Mapping
 
-## Coding Guidelines
+Implemented in `getWeatherIcon()` function in `js/api.js`:
 
-### JavaScript
+| Code Range | Condition          | SVG File          | Chinese Description |
+| ---------- | ------------------ | ----------------- | ------------------- |
+| 0          | Clear sky          | clear.svg         | 晴朗溫暖            |
+| 1-3        | Partly cloudy      | partly-cloudy.svg | 多雲時晴            |
+| 45, 48     | Fog                | fog.svg           | 霧氣朦朧            |
+| 51-57      | Drizzle            | drizzle.svg       | 細雨綿綿            |
+| 61-67      | Rain               | rain.svg          | 輕柔降雨            |
+| 71-77      | Snow               | snow.svg          | 浪漫飄雪            |
+| 80-82      | Rain showers       | showers.svg       | 陣雨來訪            |
+| 85-86      | Snow showers       | snow-showers.svg  | 陣雪飄落            |
+| 95-99      | Thunderstorm       | thunderstorm.svg  | 雷雨活力            |
+| fallback   | Unknown            | unknown.svg       | 天氣更新中          |
 
-- Use ES6+ features: `const`/`let`, arrow functions, template literals, async/await
-- Write modular functions with single responsibility
-- Use `fetch()` for API calls with proper error handling
-- Implement debouncing for search input
-- Use event delegation where appropriate
-- All comments in English
+## URL Parameter Format
 
-### HTML
-
-- Use semantic HTML5 elements (`<main>`, `<section>`, `<article>`, etc.)
-- Ensure accessibility with proper ARIA attributes
-- Keep DOM structure minimal and clean
-
-### CSS / Tailwind
-
-- Use Tailwind utility classes via CDN
-- Follow mobile-first responsive approach
-- For widget page: ensure `background: transparent` for OBS compatibility
-- Use CSS custom properties for theme values if needed
-
-### Error Handling
-
-- Handle API failures gracefully with user feedback
-- Validate user input before API calls
-- Show loading states during async operations
-- Provide fallback content when data unavailable
-
-## Key Implementation Details
-
-### Setup Page (`index.html`)
-
-1. **Location Input**: Text input with autocomplete from Geocoding API
-2. **Coordinate Display**: Show lat/lon after geocoding
-3. **Custom Name Input**: User-defined display name for location
-4. **Location List**: Manage multiple locations with add/remove
-5. **Preview iframe**: Live preview of widget with current settings
-6. **URL Generator**: Build and display widget URL with encoded parameters
-
-### Widget Page (`widget.html`)
-
-1. **URL Parameter Parsing**: Parse `locations` JSON from URL
-2. **Weather Fetching**: Fetch forecast for all locations
-3. **Cycling Display**: Rotate through locations every 5 seconds
-4. **Tomorrow's Data**: Always display index 1 from daily arrays
-5. **Transparent Background**: No background color/image for OBS
-
-### URL Parameter Format
+The widget page receives parameters via URL query string:
 
 ```javascript
+// Parameter structure
 const params = {
   locations: [
     { name: "台北", lat: 25.033, lon: 121.565 },
     { name: "東京", lat: 35.6895, lon: 139.6917 }
   ],
-  interval: 5000,  // optional, default 5000ms
-  unit: "celsius"  // optional, "celsius" or "fahrenheit"
+  interval: 5000,  // cycling interval in milliseconds (default: 5000)
+  unit: "celsius"  // "celsius" or "fahrenheit" (default: "celsius")
 };
+
+// URL generation
+const url = `widget.html?locations=${encodeURIComponent(JSON.stringify(params.locations))}&interval=${params.interval}&unit=${params.unit}`;
 ```
 
-Encode as: `?locations=${encodeURIComponent(JSON.stringify(locations))}`
+## Coding Standards
 
-## Commands
+### JavaScript Guidelines
 
-### Local Development
+- **ES6+ Syntax**: Use `const`/`let`, arrow functions, template literals, async/await
+- **Modular Functions**: Each function should have single responsibility (Single Responsibility Principle)
+- **Error Handling**: All API calls must include try-catch and display user-friendly error messages
+- **Loading States**: Async operations must provide loading states
+- **Event Delegation**: Use event delegation for dynamically generated elements
+- **Debouncing**: Implement debounce (300ms) for search inputs
+- **Comment Language**: All code comments must be in English
+
+### HTML Guidelines
+
+- **Semantic HTML5**: Use `<main>`, `<section>`, `<article>`, `<header>`, `<footer>`
+- **Accessibility**: Add ARIA attributes when necessary (`aria-label`, `aria-live`, `role`)
+- **Minimal DOM**: Keep DOM structure clean and avoid excessive nesting
+- **Heading Hierarchy**: Use h1-h6 hierarchy correctly
+
+### CSS / Tailwind Guidelines
+
+- **Utility-first**: Prefer Tailwind utility classes
+- **Custom Styles**: Write complex or repeated styles in `css/styles.css`
+- **CSS Variables**: Use `:root` to define colors and theme values
+- **Mobile-first**: Use Tailwind responsive prefixes (`sm:`, `md:`, `lg:`, `xl:`)
+- **Transitions**: Add `transition-*` classes to interactive elements
+- **OBS Compatibility**: Widget page must ensure `background: transparent`
+
+### Error Handling Patterns
+
+```javascript
+// API call with error handling
+try {
+    const data = await fetchWeather(lat, lon);
+    displayWeather(data);
+} catch (error) {
+    console.error('Failed to fetch weather:', error);
+    showError('無法取得天氣資料');
+}
+
+// Input validation
+if (!name || name.trim().length === 0) {
+    alert('請輸入顯示名稱');
+    return;
+}
+
+// Loading state management
+showLoading();
+try {
+    const result = await apiCall();
+    showContent(result);
+} catch (error) {
+    showError(error.message);
+}
+```
+
+## Development Workflow
+
+### Local Testing
+
+No dependencies need to be installed. Simply start a local server:
 
 ```bash
-# Using npx serve
+# Method 1: npx serve (recommended)
 npx serve .
 
-# Using Python
+# Method 2: Python http.server
 python -m http.server 8000
 
-# Using PHP
+# Method 3: PHP built-in server
 php -S localhost:8000
 ```
 
-No build, compile, or install steps required.
+Then open `http://localhost:8000/` to see the setup page.
 
-## Testing Checklist
+### Testing Checklist
 
-- [ ] Setup page loads without errors
-- [ ] Geocoding search returns results
-- [ ] Locations can be added/removed from list
-- [ ] Preview iframe updates with changes
-- [ ] Generated URL is correct and copyable
-- [ ] Widget page loads with URL parameters
-- [ ] Weather data displays correctly
-- [ ] Location cycling works at specified interval
-- [ ] Widget has transparent background in OBS
-- [ ] Error states display appropriate messages
+During development, verify the following:
 
-## License
+#### Setup Page
 
-AGPL-3.0 - See [LICENSE](LICENSE) file.
+- [ ] Location search works correctly, debounce is effective
+- [ ] Search results correctly display place name, country, coordinates
+- [ ] Selecting search result correctly fills the form
+- [ ] Added locations appear in the list
+- [ ] Delete location functionality works
+- [ ] URL updates correctly when adjusting interval/temperature unit
+- [ ] Preview iframe correctly displays widget
+- [ ] Copy URL functionality works, shows success feedback
 
-## Notes for Agents
+#### Widget Page
 
-- Always test API calls work before implementing UI
-- Ensure all async operations have loading and error states
-- Keep the widget page lightweight for OBS performance
-- SVG icons should be simple and clear at small sizes
-- Temperature should show both max and min for tomorrow
-- Place names may contain non-ASCII characters (CJK support required)
+- [ ] Shows error message when no parameters provided
+- [ ] Correctly parses URL parameters
+- [ ] Loading state displays correctly
+- [ ] Weather data displays correctly (icon, temperature, location name, description)
+- [ ] Cycling functionality works, interval timing is correct
+- [ ] Background is completely transparent in OBS
+- [ ] Error state displays correctly
+- [ ] Supports CJK characters in location names
+
+#### API Integration
+
+- [ ] Geocoding API calls succeed
+- [ ] Weather API calls succeed
+- [ ] Parallel fetching of multiple locations works
+- [ ] Celsius/Fahrenheit conversion is correct
+- [ ] API errors are handled appropriately
+
+### Performance Considerations
+
+- Widget page must remain lightweight as it runs continuously in OBS
+- Avoid excessive DOM manipulation
+- Use `Promise.all()` for parallel API calls
+- SVG icons should be optimized for size
+- Use `loading="lazy"` for images
+- CSS animations should use `transform` and `opacity` for best performance
+
+## Deployment
+
+The project can be deployed directly to any static hosting service:
+
+- **Cloudflare Pages**: Includes `_headers` configuration file
+- **GitHub Pages**: Supported
+- **Netlify**: Supported
+- **Vercel**: Supported
+
+No build commands or environment variables need to be configured.
+
+## License & Attribution
+
+- **License**: AGPL-3.0 (see LICENSE file)
+- **Copyright**: Copyright (C) 2026 Jim Chen
+- **Weather Data**: [Open-Meteo](https://open-meteo.com/)
+- **Font**: UoqMunThenKhung (Google Fonts)
+
+## Important Notes for AI Agents
+
+1. **Language Usage**:
+   - All code comments and function documentation must be in **English**
+   - README.md and user interface text should be in **正體中文 Traditional Chinese zh-Hant**
+   - Communicate with users in **Traditional Chinese**
+
+2. **API Limitations**:
+   - Open-Meteo free API limit: 10,000 calls/day
+   - No API key required
+   - Implement appropriate error handling for API failures
+
+3. **OBS Compatibility**:
+   - Widget page must use `background: transparent`
+   - Avoid complex animations that affect performance
+   - Test in OBS Browser Source to ensure proper display
+
+4. **CJK Character Support**:
+   - Location names may contain Chinese, Japanese, Korean characters
+   - Ensure font loads correctly (`UoqMunThenKhung` supports Chinese)
+   - URL encoding must handle non-ASCII characters properly
+
+5. **No Build Process**:
+   - Do not use npm, webpack, vite or other build tools
+   - All code runs directly in browser
+   - Tailwind CSS loaded via CDN
+   - Do not use TypeScript or JSX
+
+6. **Icons**:
+   - Icons should be clean and clear, recognizable even at small sizes
+   - Use `loading="lazy"` attribute
+   - Provide appropriate `alt` text for accessibility
+
+7. **Temperature Display**:
+   - Widget displays tomorrow's max and min temperatures
+   - Main display shows max temperature (`temperature_2m_max[1]`)
+   - Subtitle shows temperature range
+
+8. **State Management**:
+   - Do not use React/Vue framework state management
+   - Use simple JavaScript objects to manage state
+   - UI updates through direct DOM manipulation
+
+If you have any questions or need to add features, review existing implementations first to ensure consistency.
