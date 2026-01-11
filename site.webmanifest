@@ -1,6 +1,6 @@
 {
-  "name": "Weather Widget",
-  "short_name": "Weather Widget",
+  "name": "OBS Weather Widget",
+  "short_name": "OBS Weather Widget",
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",
