@@ -1,4 +1,9 @@
 /**
+ * localStorage key for persisting setup state
+ */
+const STORAGE_KEY = 'obs-weather-widget-setup';
+
+/**
  * Setup page state management
  */
 const setupState = {
@@ -167,6 +172,7 @@ function addLocation() {
     updateLocationList();
     updateWidgetUrl();
     updatePreview();
+    saveState();
 }
 
 /**
@@ -177,6 +183,7 @@ function removeLocation(index) {
     updateLocationList();
     updateWidgetUrl();
     updatePreview();
+    saveState();
 }
 
 /**
@@ -274,6 +281,78 @@ function handleSettingsChange() {
     setupState.unit = document.querySelector('input[name="unit"]:checked').value;
     updateWidgetUrl();
     updatePreview();
+    saveState();
+}
+
+/**
+ * Save current state to localStorage
+ */
+function saveState() {
+    try {
+        const stateToSave = {
+            locations: setupState.locations,
+            interval: setupState.interval,
+            unit: setupState.unit
+        };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(stateToSave));
+    } catch (error) {
+        console.error('Failed to save state to localStorage:', error);
+    }
+}
+
+/**
+ * Load state from localStorage
+ * @returns {boolean} Whether state was successfully loaded
+ */
+function loadState() {
+    try {
+        const savedState = localStorage.getItem(STORAGE_KEY);
+        if (!savedState) {
+            return false;
+        }
+
+        const parsedState = JSON.parse(savedState);
+
+        // Validate and restore locations
+        if (Array.isArray(parsedState.locations)) {
+            setupState.locations = parsedState.locations.filter(loc =>
+                loc &&
+                typeof loc.name === 'string' &&
+                typeof loc.lat === 'number' &&
+                typeof loc.lon === 'number' &&
+                loc.lat >= -90 && loc.lat <= 90 &&
+                loc.lon >= -180 && loc.lon <= 180
+            );
+        }
+
+        // Validate and restore interval
+        if (typeof parsedState.interval === 'number' && parsedState.interval >= 1000) {
+            setupState.interval = parsedState.interval;
+        }
+
+        // Validate and restore unit
+        if (parsedState.unit === 'celsius' || parsedState.unit === 'fahrenheit') {
+            setupState.unit = parsedState.unit;
+        }
+
+        return true;
+    } catch (error) {
+        console.error('Failed to load state from localStorage:', error);
+        return false;
+    }
+}
+
+/**
+ * Sync loaded state to UI elements
+ */
+function syncStateToUI() {
+    // Sync interval input
+    elements.intervalInput.value = setupState.interval;
+
+    // Sync unit radio buttons
+    elements.unitRadios.forEach(radio => {
+        radio.checked = radio.value === setupState.unit;
+    });
 }
 
 /**
@@ -324,9 +403,12 @@ function initEventListeners() {
  */
 function initSetup() {
     initElements();
+    loadState();
+    syncStateToUI();
     initEventListeners();
     updateLocationList();
     updateWidgetUrl();
+    updatePreview();
 }
 
 // Initialize on page load
