@@ -99,11 +99,11 @@ function displaySearchResults(results) {
     elements.resultsList.innerHTML = results.map((loc, index) => `
         <li class="flex justify-between items-center bg-[#f1f8ff] border border-[#d2ecfa] rounded-2xl px-4 py-3 shadow-sm">
             <div class="text-[#4b3828]">
-                <span class="font-semibold">${loc.name}</span>
+                <span>${loc.name}</span>
                 <span class="text-[#7a6b5c] text-sm">, ${loc.country || ''}</span>
                 <span class="text-[#9aa8b2] text-xs ml-2">(${loc.latitude.toFixed(4)}, ${loc.longitude.toFixed(4)})</span>
             </div>
-            <button class="select-location-btn px-3 py-2 bg-[#8ed1ff] hover:bg-[#a7ddff] rounded-full text-sm font-semibold text-[#2f3c4a] shadow-md transition-colors"
+            <button class="select-location-btn px-3 py-2 bg-[#8ed1ff] hover:bg-[#a7ddff] rounded-full text-sm text-[#2f3c4a] shadow-md transition-colors"
                     data-index="${index}">
                 選擇
             </button>
@@ -195,10 +195,10 @@ function updateLocationList() {
     elements.locationList.innerHTML = setupState.locations.map((loc, index) => `
         <li class="flex justify-between items-center bg-[#fefaf1] border border-[#f6e2b8] rounded-2xl px-4 py-3 shadow-sm">
             <div class="text-[#4b3828]">
-                <span class="font-semibold">${index + 1}. ${loc.name}</span>
+                <span>${index + 1}. ${loc.name}</span>
                 <span class="text-[#9b8b78] text-sm ml-2">(${loc.lat}, ${loc.lon})</span>
             </div>
-            <button class="remove-location-btn px-3 py-2 bg-[#ffb3b3] hover:bg-[#ffc7c7] rounded-full text-sm font-semibold text-[#6b2b2b] shadow-md transition-colors"
+            <button class="remove-location-btn px-3 py-2 bg-[#ffb3b3] hover:bg-[#ffc7c7] rounded-full text-sm text-[#6b2b2b] shadow-md transition-colors"
                     data-index="${index}">
                 刪除
             </button>

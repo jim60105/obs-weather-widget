@@ -36,7 +36,7 @@ applyTo: "**/*.ts,**/*.tsx,**/*.js,**/*.html,**/*.css,**/*.scss,**/*.vue"
 ```html
 <!-- Example card component using Tailwind and VanillaJS -->
 <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
-    <h3 class="text-xl font-semibold text-gray-800 mb-2">Card Title</h3>
+    <h3 class="text-xl text-gray-800 mb-2">Card Title</h3>
     <p class="text-gray-600 mb-4">Card description with important information.</p>
     <button
         class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded transition-colors duration-200"

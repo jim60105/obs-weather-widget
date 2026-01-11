@@ -10,16 +10,16 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         .test-pass {
-            background-color: #d1fae5;
             border-color: #10b981;
+            background-color: #d1fae5;
         }
         .test-fail {
-            background-color: #fee2e2;
             border-color: #ef4444;
+            background-color: #fee2e2;
         }
         .test-pending {
-            background-color: #fef3c7;
             border-color: #f59e0b;
+            background-color: #fef3c7;
         }
         .test-item {
             border-left-width: 4px;
@@ -33,50 +33,50 @@
 </head>
 <body class="bg-gray-100 p-8">
     <div class="max-w-6xl mx-auto">
-        <h1 class="text-4xl font-bold mb-8 text-center">🧪 Comprehensive Integration Tests</h1>
+        <h1 class="text-4xl mb-8 text-center">🧪 Comprehensive Integration Tests</h1>
         
         <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
-            <h2 class="text-2xl font-semibold mb-4">Test Summary</h2>
+            <h2 class="text-2xl mb-4">Test Summary</h2>
             <div class="grid grid-cols-3 gap-4">
                 <div class="text-center p-4 bg-green-50 rounded">
-                    <div class="text-3xl font-bold text-green-600" id="pass-count">0</div>
+                    <div class="text-3xl text-green-600" id="pass-count">0</div>
                     <div class="text-sm text-gray-600">Passed</div>
                 </div>
                 <div class="text-center p-4 bg-red-50 rounded">
-                    <div class="text-3xl font-bold text-red-600" id="fail-count">0</div>
+                    <div class="text-3xl text-red-600" id="fail-count">0</div>
                     <div class="text-sm text-gray-600">Failed</div>
                 </div>
                 <div class="text-center p-4 bg-yellow-50 rounded">
-                    <div class="text-3xl font-bold text-yellow-600" id="pending-count">0</div>
+                    <div class="text-3xl text-yellow-600" id="pending-count">0</div>
                     <div class="text-sm text-gray-600">Pending</div>
                 </div>
             </div>
-            <button id="run-tests" class="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors">
+            <button id="run-tests" class="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg transition-colors">
                 🚀 Run All Tests
             </button>
         </div>
 
         <!-- API Module Tests -->
         <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
-            <h2 class="text-2xl font-semibold mb-4">📡 API Module Tests</h2>
+            <h2 class="text-2xl mb-4">📡 API Module Tests</h2>
             <div id="api-tests" class="space-y-3"></div>
         </div>
 
         <!-- Weather Icons Tests -->
         <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
-            <h2 class="text-2xl font-semibold mb-4">🌤️ Weather Icons Tests</h2>
+            <h2 class="text-2xl mb-4">🌤️ Weather Icons Tests</h2>
             <div id="icon-tests" class="space-y-3"></div>
         </div>
 
         <!-- Widget Page Tests -->
         <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
-            <h2 class="text-2xl font-semibold mb-4">📺 Widget Page Tests</h2>
+            <h2 class="text-2xl mb-4">📺 Widget Page Tests</h2>
             <div id="widget-tests" class="space-y-3"></div>
         </div>
 
         <!-- Setup Page Tests -->
         <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
-            <h2 class="text-2xl font-semibold mb-4">⚙️ Setup Page Tests</h2>
+            <h2 class="text-2xl mb-4">⚙️ Setup Page Tests</h2>
             <div id="setup-tests" class="space-y-3"></div>
         </div>
     </div>
@@ -100,7 +100,7 @@
             item.innerHTML = `
                 <div class="flex items-start justify-between">
                     <div class="flex-1">
-                        <div class="font-semibold">${name}</div>
+                        <div>${name}</div>
                         <div class="test-details text-sm text-gray-600 mt-1">${details}</div>
                     </div>
                     <div class="test-status ml-4">
