@@ -2,6 +2,8 @@
 
 一個適用於 `OBS Studio` 瀏覽器來源的可愛風格天氣小工具，顯示明日天氣預報並支援多個地點輪播。
 
+[preview.webm](https://github.com/user-attachments/assets/c9fc2782-d05e-4cdb-8d3d-d309a80ac71e)
+
 ## 功能
 
 - 🌤️ 顯示明日天氣預報，並搭配可愛風格圖示
@@ -10,10 +12,6 @@
 - 🎨 為 `OBS` 瀏覽器來源設計的透明背景
 - 🔧 使用者友善的設定頁面，具備即時預覽
 - 🌍 支援全球地點搜尋（使用地理編碼）
-
-## 展示
-
-<!-- TODO: 在此加入展示 GIF 或截圖 -->
 
 ## 頁面說明
 
@@ -44,15 +42,22 @@
 2. 以名稱搜尋地點或手動輸入座標
 3. 設定該地點的顯示名稱
 4. 點選「新增」將地點加入清單
+   
+   <img width="1585" height="728" alt="image" src="https://github.com/user-attachments/assets/22fef1d9-69ef-4179-b626-5c4d7a5d84cb" />
+
 5. 重複上述步驟以加入更多地點
 6. 複製產生後的 Widget URL
+
+   <img width="1585" height="347" alt="image" src="https://github.com/user-attachments/assets/756f021e-67a0-4155-9538-7951e786578b" />
 
 ### 2. 加入 OBS
 
 1. 在 `OBS Studio` 中新增一個 **Browser Source**
 2. 將 Widget URL 貼入 URL 欄位
-3. 設定寬度與高度 450 x 250
+3. 設定寬度與高度 500 x 300
 4. 小工具即會以透明背景顯示
+
+   <img width="600" alt="image" src="https://github.com/user-attachments/assets/cbb3447e-b3d2-4e4d-aa27-f26997443469" />
 
 ## API 整合
 
