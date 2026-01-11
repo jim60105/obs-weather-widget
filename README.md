@@ -57,7 +57,8 @@
 3. 設定寬度與高度 500 x 300
 4. 小工具即會以透明背景顯示
 
-   <img width="600" alt="image" src="https://github.com/user-attachments/assets/cbb3447e-b3d2-4e4d-aa27-f26997443469" />
+   <img width="500" alt="image" src="https://github.com/user-attachments/assets/84b6360a-5556-4239-812f-66c901a1b64c" />
+
 
 ## API 整合
 
