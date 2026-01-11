@@ -115,37 +115,37 @@ async function fetchWeatherForLocations(locations, unit = 'celsius') {
  */
 function getWeatherIcon(code) {
     const iconMap = {
-        0: 'clear.svg',
-        1: 'partly-cloudy.svg',
-        2: 'partly-cloudy.svg',
-        3: 'partly-cloudy.svg',
-        45: 'fog.svg',
-        48: 'fog.svg',
-        51: 'drizzle.svg',
-        53: 'drizzle.svg',
-        55: 'drizzle.svg',
-        56: 'drizzle.svg',
-        57: 'drizzle.svg',
-        61: 'rain.svg',
-        63: 'rain.svg',
-        65: 'rain.svg',
-        66: 'rain.svg',
-        67: 'rain.svg',
-        71: 'snow.svg',
-        73: 'snow.svg',
-        75: 'snow.svg',
-        77: 'snow.svg',
-        80: 'showers.svg',
-        81: 'showers.svg',
-        82: 'showers.svg',
-        85: 'snow-showers.svg',
-        86: 'snow-showers.svg',
-        95: 'thunderstorm.svg',
-        96: 'thunderstorm.svg',
-        99: 'thunderstorm.svg'
+        0: 'clear.webp',
+        1: 'partly-cloudy.webp',
+        2: 'partly-cloudy.webp',
+        3: 'partly-cloudy.webp',
+        45: 'fog.webp',
+        48: 'fog.webp',
+        51: 'drizzle.webp',
+        53: 'drizzle.webp',
+        55: 'drizzle.webp',
+        56: 'drizzle.webp',
+        57: 'drizzle.webp',
+        61: 'rain.webp',
+        63: 'rain.webp',
+        65: 'rain.webp',
+        66: 'rain.webp',
+        67: 'rain.webp',
+        71: 'snow.webp',
+        73: 'snow.webp',
+        75: 'snow.webp',
+        77: 'snow.webp',
+        80: 'showers.webp',
+        81: 'showers.webp',
+        82: 'showers.webp',
+        85: 'snow-showers.webp',
+        86: 'snow-showers.webp',
+        95: 'thunderstorm.webp',
+        96: 'thunderstorm.webp',
+        99: 'thunderstorm.webp'
     };
     
-    return iconMap[code] || 'unknown.svg';
+    return iconMap[code] || 'unknown.webp';
 }
 
 /**

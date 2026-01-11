@@ -123,7 +123,7 @@ obs-weather-widget/
 │   ├── setup.js            # 設定頁邏輯 (搜尋、新增、預覽、URL 產生)
 │   └── widget.js           # 小工具顯示與輪播邏輯
 ├── icons/
-│   └── weather/            # WMO 天氣圖示
+│   └── weather/            # WMO 天氣圖示 (WebP 格式)
 ├── docs/
 │   └── API_USAGE.md        # API 模組使用範例與文件
 ├── .github/

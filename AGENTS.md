@@ -40,7 +40,7 @@ obs-weather-widget/
 │   ├── setup.js            # Setup page logic (search, add, preview, URL generation)
 │   └── widget.js           # Widget page logic (parse params, fetch weather, cycling)
 ├── icons/
-│   └── weather/            # Weather icons (named by WMO code)
+│   └── weather/            # Weather icons (WebP format, named by WMO code)
 ├── docs/
 │   └── API_USAGE.md        # API module usage examples and documentation
 ├── .github/
@@ -157,18 +157,18 @@ https://geocoding-api.open-meteo.com/v1/search
 
 Implemented in `getWeatherIcon()` function in `js/api.js`:
 
-| Code Range | Condition          | SVG File          | Chinese Description |
-| ---------- | ------------------ | ----------------- | ------------------- |
-| 0          | Clear sky          | clear.svg         | 晴朗溫暖            |
-| 1-3        | Partly cloudy      | partly-cloudy.svg | 多雲時晴            |
-| 45, 48     | Fog                | fog.svg           | 霧氣朦朧            |
-| 51-57      | Drizzle            | drizzle.svg       | 細雨綿綿            |
-| 61-67      | Rain               | rain.svg          | 輕柔降雨            |
-| 71-77      | Snow               | snow.svg          | 浪漫飄雪            |
-| 80-82      | Rain showers       | showers.svg       | 陣雨來訪            |
-| 85-86      | Snow showers       | snow-showers.svg  | 陣雪飄落            |
-| 95-99      | Thunderstorm       | thunderstorm.svg  | 雷雨活力            |
-| fallback   | Unknown            | unknown.svg       | 天氣更新中          |
+| Code Range | Condition          | WebP File           | Chinese Description |
+| ---------- | ------------------ | ------------------- | ------------------- |
+| 0          | Clear sky          | clear.webp          | 晴朗溫暖            |
+| 1-3        | Partly cloudy      | partly-cloudy.webp  | 多雲時晴            |
+| 45, 48     | Fog                | fog.webp            | 霧氣朦朧            |
+| 51-57      | Drizzle            | drizzle.webp        | 細雨綿綿            |
+| 61-67      | Rain               | rain.webp           | 輕柔降雨            |
+| 71-77      | Snow               | snow.webp           | 浪漫飄雪            |
+| 80-82      | Rain showers       | showers.webp        | 陣雨來訪            |
+| 85-86      | Snow showers       | snow-showers.webp   | 陣雪飄落            |
+| 95-99      | Thunderstorm       | thunderstorm.webp   | 雷雨活力            |
+| fallback   | Unknown            | unknown.webp        | 天氣更新中          |
 
 ## URL Parameter Format
 
@@ -303,7 +303,7 @@ During development, verify the following:
 - Widget page must remain lightweight as it runs continuously in OBS
 - Avoid excessive DOM manipulation
 - Use `Promise.all()` for parallel API calls
-- SVG icons should be optimized for size
+- WebP icons are optimized for smaller file size and better performance
 - Use `loading="lazy"` for images
 - CSS animations should use `transform` and `opacity` for best performance
 
@@ -354,6 +354,7 @@ No build commands or environment variables need to be configured.
    - Do not use TypeScript or JSX
 
 6. **Icons**:
+   - Weather icons use WebP format for better compression and performance
    - Icons should be clean and clear, recognizable even at small sizes
    - Use `loading="lazy"` attribute
    - Provide appropriate `alt` text for accessibility

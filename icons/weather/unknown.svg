@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
-  <!-- Gentle cloud -->
-  <path d="M34 72c-12 0-22-9.2-22-20.6 0-10.6 7-19.5 16.7-20.9C32.5 21 43 14 55 14c13.2 0 24.3 9.9 26.3 22.9C94 38.2 104 48.6 104 61c0 12.7-10.8 23-23.7 23H34Z" fill="#f4fbff" stroke="#d2ecfa" stroke-width="3" stroke-linejoin="round"/>
-  <!-- Question mark -->
-  <path d="M48 54c0-8 6.5-14 14.8-14 8 0 13.2 5.4 13.2 12 0 5-2.5 8.4-7.4 10.8-1.7.9-2.6 2.3-2.6 4v2.2" stroke="#7a6b5c" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-  <circle cx="66" cy="84" r="4.5" fill="#7a6b5c"/>
-</svg>
