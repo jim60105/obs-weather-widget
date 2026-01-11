@@ -1,55 +1,65 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather Widget</title>
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Hachi+Maru+Pop&display=swap" rel="stylesheet">
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="css/styles.css">
-</head>
-<body class="bg-transparent">
-    <!-- Loading State -->
-    <div id="loading" class="flex flex-col items-center justify-center w-full">
-        <div class="loader-ring"></div>
-        <p class="mt-3 text-sm text-[#6a5846]">正在準備可愛的天氣卡片...</p>
-    </div>
-
-    <!-- Error State -->
-    <div id="error" class="hidden flex justify-center p-4">
-        <div class="error-card text-center w-full max-w-md">
-            <p id="error-message" class="font-semibold mb-2">無法載入天氣資料</p>
-            <p class="text-sm">請稍後再試，或確認網址參數是否正確。</p>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Weather Widget</title>
+        <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <meta name="apple-mobile-web-app-title" content="MyWebSite" />
+        <link rel="manifest" href="/site.webmanifest" />
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=UoqMunThenKhung&display=swap"
+            rel="stylesheet"
+        />
+        <!-- Tailwind CSS CDN -->
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="css/styles.css" />
+    </head>
+    <body class="bg-transparent">
+        <!-- Loading State -->
+        <div id="loading" class="flex flex-col items-center justify-center w-full">
+            <div class="loader-ring"></div>
+            <p class="mt-3 text-sm text-[#6a5846]">正在準備可愛的天氣卡片...</p>
         </div>
-    </div>
 
-    <!-- Weather Display -->
-    <main id="weather-display" class="hidden w-full flex justify-center" aria-live="polite">
-        <section class="widget-card" role="group" aria-label="明日天氣">
-            <div class="widget-hero">
-                <div id="weather-icon" class="icon-bubble" aria-hidden="true">
-                    <img src="" alt="" loading="lazy">
-                </div>
-                <div class="hero-text">
-                    <p class="label">明日預報</p>
-                    <h1 id="place-name">地點</h1>
-                    <p id="description" class="description">晴朗舒適</p>
-                    <div class="temp-main">
-                        <span id="temp-main">22°</span>
-                    </div>
-                    <div class="temp-range">
-                        高溫 <span id="temp-max">22°</span> ／ 低溫 <span id="temp-min">16°</span>
-                    </div>
-                </div>
+        <!-- Error State -->
+        <div id="error" class="hidden flex justify-center p-4">
+            <div class="error-card text-center w-full max-w-md">
+                <p id="error-message" class="font-semibold mb-2">無法載入天氣資料</p>
+                <p class="text-sm">請稍後再試，或確認網址參數是否正確。</p>
             </div>
-        </section>
-    </main>
+        </div>
 
-    <script src="js/api.js"></script>
-    <script src="js/widget.js"></script>
-</body>
+        <!-- Weather Display -->
+        <main id="weather-display" class="hidden w-full flex justify-center" aria-live="polite">
+            <section class="widget-card" role="group" aria-label="明日天氣">
+                <div class="widget-hero">
+                    <div id="weather-icon" class="icon-bubble" aria-hidden="true">
+                        <img src="" alt="" loading="lazy" />
+                    </div>
+                    <div class="hero-text">
+                        <p class="label">明日預報</p>
+                        <h1 id="place-name">地點</h1>
+                        <p id="description" class="description">晴朗舒適</p>
+                        <div class="temp-main">
+                            <span id="temp-main">22°</span>
+                        </div>
+                        <div class="temp-range">
+                            高溫 <span id="temp-max">22°</span> ／ 低溫
+                            <span id="temp-min">16°</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <script src="js/api.js"></script>
+        <script src="js/widget.js"></script>
+    </body>
 </html>

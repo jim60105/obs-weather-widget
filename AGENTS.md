@@ -133,7 +133,7 @@ Map these codes to appropriate SVG icons:
 const params = {
   locations: [
     { name: "台北", lat: 25.033, lon: 121.565 },
-    { name: "東京", lat: 35.676, lon: 139.650 }
+    { name: "東京", lat: 35.6895, lon: 139.6917 }
   ],
   interval: 5000,  // optional, default 5000ms
   unit: "celsius"  // optional, "celsius" or "fahrenheit"

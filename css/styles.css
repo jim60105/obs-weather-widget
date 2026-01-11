@@ -13,20 +13,20 @@
 
 /* Ensure transparent background for OBS */
 html, body {
-    background: transparent !important;
     margin: 0;
+    background: transparent !important;
     padding: 0;
     overflow: hidden;
-    font-family: "Hachi Maru Pop", "Noto Sans TC", cursive;
     color: var(--text-main);
+    font-family: "UoqMunThenKhung", "Noto Color Emoji", sans-serif;
 }
 
 body {
     display: flex;
-    align-items: center;
     justify-content: center;
-    min-height: 100vh;
+    align-items: center;
     padding: 12px;
+    min-height: 100vh;
 }
 
 #loading {
@@ -34,12 +34,12 @@ body {
 }
 
 .loader-ring {
-    width: 3rem;
-    height: 3rem;
-    border-radius: 9999px;
+    animation: spin 1s linear infinite;
     border: 6px solid var(--outline);
     border-top-color: var(--sunshine);
-    animation: spin 1s linear infinite;
+    border-radius: 9999px;
+    width: 3rem;
+    height: 3rem;
 }
 
 @keyframes spin {
@@ -47,39 +47,39 @@ body {
 }
 
 .widget-card {
-    width: min(420px, 100%);
+    transition: opacity 0.35s ease-in-out;
+    box-shadow: var(--shadow);
+    border: 2px solid var(--outline);
     border-radius: 32px;
     background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-bottom) 54%, #ffffff 54%, #ffffff 100%);
-    border: 2px solid var(--outline);
-    box-shadow: var(--shadow);
+    width: min(420px, 100%);
     overflow: hidden;
-    transition: opacity 0.35s ease-in-out;
 }
 
 .widget-hero {
     display: grid;
     grid-template-columns: auto 1fr;
+    align-items: center;
     gap: 16px;
     padding: 22px 22px 12px;
-    align-items: center;
 }
 
 .icon-bubble {
+    display: grid;
     position: relative;
+    place-items: center;
     width: 110px;
     height: 110px;
-    display: grid;
-    place-items: center;
 }
 
 .icon-bubble img {
     position: relative;
     z-index: 1;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.08));
+    transition: transform 0.35s ease;
     width: 78px;
     height: 78px;
     object-fit: contain;
-    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.08));
-    transition: transform 0.35s ease;
 }
 
 .icon-bubble:hover img {
@@ -87,28 +87,28 @@ body {
 }
 
 .hero-text .label {
-    font-size: 0.85rem;
     color: var(--text-soft);
+    font-size: 0.85rem;
     letter-spacing: 0.04em;
 }
 
 .hero-text h1 {
     margin: 6px 0 4px;
-    font-size: 1.5rem;
     font-weight: 800;
+    font-size: 1.5rem;
 }
 
 .hero-text .description {
-    font-size: 1.05rem;
     color: var(--text-main);
+    font-size: 1.05rem;
 }
 
 .temp-main {
-    font-size: 3rem;
-    font-weight: 800;
-    line-height: 1;
-    color: var(--text-main);
     margin-top: 10px;
+    color: var(--text-main);
+    font-weight: 800;
+    font-size: 3rem;
+    line-height: 1;
 }
 
 .temp-range {
@@ -118,12 +118,12 @@ body {
 }
 
 .error-card {
-    background: linear-gradient(180deg, #ffe2e2 0%, #fff 100%);
+    box-shadow: 0 12px 32px rgba(255, 146, 146, 0.25);
     border: 2px solid #ffd1d1;
     border-radius: 24px;
+    background: linear-gradient(180deg, #ffe2e2 0%, #fff 100%);
     padding: 18px;
     color: #8b3a3a;
-    box-shadow: 0 12px 32px rgba(255, 146, 146, 0.25);
 }
 
 /* Smooth transitions for cycling */

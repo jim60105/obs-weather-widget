@@ -1,162 +1,248 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OBS Weather Widget - Setup</title>
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {
-            font-family: 'Baloo 2', 'Noto Sans TC', sans-serif;
-            background: radial-gradient(circle at 20% 15%, #fff9e6 0, #fff9e6 18%, transparent 28%),
-                        radial-gradient(circle at 80% 0%, #dff2ff 0, #dff2ff 18%, transparent 28%),
-                        linear-gradient(180deg, #f8fcff 0%, #d8edff 100%);
-            color: #544333;
-        }
-    </style>
-</head>
-<body class="min-h-screen">
-    <div class="container mx-auto px-4 py-10 max-w-5xl">
-        <!-- Header -->
-        <header class="text-center mb-10">
-            <div class="inline-flex items-center gap-3 bg-white/80 border border-[#d2ecfa] px-5 py-3 rounded-full shadow-md shadow-sky-100">
-                <span class="text-2xl">🌤️</span>
-                <span class="text-sm font-semibold text-[#6a5846] tracking-wide">可愛風 OBS 天氣卡</span>
-            </div>
-            <h1 class="text-4xl font-bold mt-4 text-[#4b3828]">OBS Weather Widget</h1>
-            <p class="text-lg text-[#7a6b5c] mt-1">把療癒的天空搬進直播畫面</p>
-        </header>
-
-        <!-- Location Search Section -->
-        <section class="bg-white/85 border border-[#d2ecfa] rounded-3xl p-6 mb-6 shadow-lg shadow-sky-100 backdrop-blur-sm">
-            <div class="flex items-center justify-between mb-4">
-                <h2 class="text-xl font-bold text-[#4b3828]">🔍 地點搜尋</h2>
-                <span class="text-sm text-[#8a7a68]">輸入至少兩個字</span>
-            </div>
-            <div class="flex flex-col md:flex-row gap-3 mb-4">
-                <input type="text" id="search-input" 
-                       class="flex-1 px-4 py-3 rounded-2xl bg-white border border-[#cbe6f7] focus:border-[#f7c266] focus:ring-2 focus:ring-[#f9d385] outline-none shadow-inner"
-                       placeholder="輸入地點名稱...">
-                <button id="search-btn" 
-                        class="px-6 py-3 bg-[#f7c266] hover:bg-[#f9d385] rounded-full font-semibold text-[#4d3a28] shadow-md transition-colors">
-                    搜尋
-                </button>
-            </div>
-            <div id="search-results" class="hidden">
-                <p class="text-sm text-[#8a7a68] mb-2">搜尋結果：</p>
-                <ul id="results-list" class="space-y-2"></ul>
-            </div>
-        </section>
-
-        <!-- Add Location Section -->
-        <section class="bg-white/85 border border-[#d2ecfa] rounded-3xl p-6 mb-6 shadow-lg shadow-sky-100 backdrop-blur-sm">
-            <div class="flex items-center justify-between mb-4">
-                <h2 class="text-xl font-bold text-[#4b3828]">📍 新增地點</h2>
-                <span class="text-sm text-[#8a7a68]">從搜尋結果直接帶入更省力</span>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
-                <div>
-                    <label class="block text-sm text-[#8a7a68] mb-1">顯示名稱</label>
-                    <input type="text" id="location-name" 
-                           class="w-full px-4 py-3 rounded-2xl bg-white border border-[#cbe6f7] focus:border-[#f7c266] focus:ring-2 focus:ring-[#f9d385] outline-none shadow-inner"
-                           placeholder="例如：台北">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>OBS Weather Widget - Setup</title>
+        <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <meta name="apple-mobile-web-app-title" content="MyWebSite" />
+        <link rel="manifest" href="/site.webmanifest" />
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=UoqMunThenKhung&family=Noto+Color+Emoji&display=swap"
+            rel="stylesheet"
+        />
+        <!-- Tailwind CSS CDN -->
+        <script src="https://cdn.tailwindcss.com"></script>
+        <style>
+            body {
+                background: radial-gradient(
+                        circle at 20% 15%,
+                        #fff9e6 0,
+                        #fff9e6 18%,
+                        transparent 28%
+                    ),
+                    radial-gradient(circle at 80% 0%, #dff2ff 0, #dff2ff 18%, transparent 28%),
+                    linear-gradient(180deg, #f8fcff 0%, #d8edff 100%);
+                color: #544333;
+                font-family: 'UoqMunThenKhung', 'Noto Color Emoji', sans-serif;
+            }
+        </style>
+    </head>
+    <body class="min-h-screen">
+        <div class="container mx-auto px-4 py-10 max-w-5xl">
+            <!-- Header -->
+            <header class="text-center mb-10">
+                <div
+                    class="inline-flex items-center gap-3 bg-white/80 border border-[#d2ecfa] px-5 py-3 rounded-full shadow-md shadow-sky-100"
+                >
+                    <span class="text-2xl">🌦️</span>
+                    <span class="text-sm font-semibold text-[#6a5846] tracking-wide"
+                        >可愛風 OBS 天氣卡</span
+                    >
                 </div>
-                <div>
-                    <label class="block text-sm text-[#8a7a68] mb-1">緯度</label>
-                    <input type="number" id="location-lat" step="0.0001"
-                           class="w-full px-4 py-3 rounded-2xl bg-white border border-[#cbe6f7] focus:border-[#f7c266] focus:ring-2 focus:ring-[#f9d385] outline-none shadow-inner"
-                           placeholder="25.0330">
-                </div>
-                <div>
-                    <label class="block text-sm text-[#8a7a68] mb-1">經度</label>
-                    <input type="number" id="location-lon" step="0.0001"
-                           class="w-full px-4 py-3 rounded-2xl bg-white border border-[#cbe6f7] focus:border-[#f7c266] focus:ring-2 focus:ring-[#f9d385] outline-none shadow-inner"
-                           placeholder="121.5654">
-                </div>
-            </div>
-            <button id="add-location-btn" 
-                    class="px-6 py-3 bg-[#8ed1ff] hover:bg-[#a7ddff] rounded-full font-semibold text-[#2f3c4a] shadow-md transition-colors">
-                新增到清單
-            </button>
-        </section>
+                <h1 class="text-4xl font-bold mt-4 text-[#4b3828]">OBS Weather Widget</h1>
+                <p class="text-lg text-[#7a6b5c] mt-1">把療癒的天空搬進直播畫面</p>
+            </header>
 
-        <!-- Location List Section -->
-        <section class="bg-white/85 border border-[#d2ecfa] rounded-3xl p-6 mb-6 shadow-lg shadow-sky-100 backdrop-blur-sm">
-            <h2 class="text-xl font-bold text-[#4b3828] mb-4">📋 地點清單</h2>
-            <div id="location-list-empty" class="text-[#8a7a68] text-center py-4">
-                尚未新增任何地點
-            </div>
-            <ul id="location-list" class="space-y-3 hidden"></ul>
-        </section>
-
-        <!-- Widget Settings Section -->
-        <section class="bg-white/85 border border-[#d2ecfa] rounded-3xl p-6 mb-6 shadow-lg shadow-sky-100 backdrop-blur-sm">
-            <h2 class="text-xl font-bold text-[#4b3828] mb-4">⚙️ Widget 設定</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-sm text-[#8a7a68] mb-1">循環間隔 (毫秒)</label>
-                    <input type="number" id="interval" value="5000" min="1000" step="500"
-                           class="w-full px-4 py-3 rounded-2xl bg-white border border-[#cbe6f7] focus:border-[#f7c266] focus:ring-2 focus:ring-[#f9d385] outline-none shadow-inner">
+            <!-- Location Search Section -->
+            <section
+                class="bg-white/85 border border-[#d2ecfa] rounded-3xl p-6 mb-6 shadow-lg shadow-sky-100 backdrop-blur-sm"
+            >
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-xl font-bold text-[#4b3828]">🔍 地點搜尋</h2>
+                    <span class="text-sm text-[#8a7a68]">輸入至少兩個字</span>
                 </div>
-                <div>
-                    <label class="block text-sm text-[#8a7a68] mb-1">溫度單位</label>
-                    <div class="flex gap-4 mt-2">
-                        <label class="flex items-center gap-2 cursor-pointer px-3 py-2 rounded-2xl border border-[#cbe6f7] bg-white hover:border-[#f7c266] transition-colors">
-                            <input type="radio" name="unit" value="celsius" checked 
-                                   class="w-4 h-4 text-[#f7c266]">
-                            <span class="text-[#4b3828]">攝氏 (°C)</span>
-                        </label>
-                        <label class="flex items-center gap-2 cursor-pointer px-3 py-2 rounded-2xl border border-[#cbe6f7] bg-white hover:border-[#f7c266] transition-colors">
-                            <input type="radio" name="unit" value="fahrenheit"
-                                   class="w-4 h-4 text-[#f7c266]">
-                            <span class="text-[#4b3828]">華氏 (°F)</span>
-                        </label>
+                <div class="flex flex-col md:flex-row gap-3 mb-4">
+                    <input
+                        type="text"
+                        id="search-input"
+                        class="flex-1 px-4 py-3 rounded-2xl bg-white border border-[#cbe6f7] focus:border-[#f7c266] focus:ring-2 focus:ring-[#f9d385] outline-none shadow-inner"
+                        placeholder="輸入地點名稱..."
+                    />
+                    <button
+                        id="search-btn"
+                        class="px-6 py-3 bg-[#f7c266] hover:bg-[#f9d385] rounded-full font-semibold text-[#4d3a28] shadow-md transition-colors"
+                    >
+                        搜尋
+                    </button>
+                </div>
+                <div id="search-results" class="hidden">
+                    <p class="text-sm text-[#8a7a68] mb-2">搜尋結果：</p>
+                    <ul id="results-list" class="space-y-2"></ul>
+                </div>
+            </section>
+
+            <!-- Add Location Section -->
+            <section
+                class="bg-white/85 border border-[#d2ecfa] rounded-3xl p-6 mb-6 shadow-lg shadow-sky-100 backdrop-blur-sm"
+            >
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-xl font-bold text-[#4b3828]">📍 新增地點</h2>
+                    <span class="text-sm text-[#8a7a68]">從搜尋結果直接帶入更省力</span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
+                    <div>
+                        <label class="block text-sm text-[#8a7a68] mb-1">顯示名稱</label>
+                        <input
+                            type="text"
+                            id="location-name"
+                            class="w-full px-4 py-3 rounded-2xl bg-white border border-[#cbe6f7] focus:border-[#f7c266] focus:ring-2 focus:ring-[#f9d385] outline-none shadow-inner"
+                            placeholder="例如：台北"
+                        />
+                    </div>
+                    <div>
+                        <label class="block text-sm text-[#8a7a68] mb-1">緯度</label>
+                        <input
+                            type="number"
+                            id="location-lat"
+                            step="0.0001"
+                            class="w-full px-4 py-3 rounded-2xl bg-white border border-[#cbe6f7] focus:border-[#f7c266] focus:ring-2 focus:ring-[#f9d385] outline-none shadow-inner"
+                            placeholder="25.0531"
+                        />
+                    </div>
+                    <div>
+                        <label class="block text-sm text-[#8a7a68] mb-1">經度</label>
+                        <input
+                            type="number"
+                            id="location-lon"
+                            step="0.0001"
+                            class="w-full px-4 py-3 rounded-2xl bg-white border border-[#cbe6f7] focus:border-[#f7c266] focus:ring-2 focus:ring-[#f9d385] outline-none shadow-inner"
+                            placeholder="121.5264"
+                        />
                     </div>
                 </div>
-            </div>
-        </section>
-
-        <!-- Preview Section -->
-        <section class="bg-white/85 border border-[#d2ecfa] rounded-3xl p-6 mb-6 shadow-lg shadow-sky-100 backdrop-blur-sm">
-            <h2 class="text-xl font-bold text-[#4b3828] mb-4">👁️ Widget 預覽</h2>
-            <div class="bg-[#f1f8ff] rounded-3xl p-4 flex items-center justify-center min-h-[170px] border border-[#d2ecfa] shadow-inner">
-                <iframe id="preview-iframe" 
-                        class="w-[320px] h-[170px] border-0 rounded-2xl shadow-lg"
-                        src="about:blank"></iframe>
-            </div>
-            <button id="refresh-preview-btn" 
-                    class="mt-4 px-4 py-2 bg-[#8ed1ff] hover:bg-[#a7ddff] rounded-full text-sm font-semibold text-[#2f3c4a] shadow-md transition-colors">
-                🔄 重新整理預覽
-            </button>
-        </section>
-
-        <!-- URL Output Section -->
-        <section class="bg-white/85 border border-[#d2ecfa] rounded-3xl p-6 shadow-lg shadow-sky-100 backdrop-blur-sm">
-            <h2 class="text-xl font-bold text-[#4b3828] mb-4">🔗 Widget URL</h2>
-            <div class="flex flex-col md:flex-row gap-2">
-                <input type="text" id="widget-url" readonly
-                       class="flex-1 px-4 py-3 rounded-2xl bg-white border border-[#cbe6f7] text-sm font-mono text-[#2f3c4a] shadow-inner"
-                       placeholder="新增地點後將顯示 URL">
-                <button id="copy-url-btn" 
-                        class="px-6 py-3 bg-[#f7c266] hover:bg-[#f9d385] rounded-full font-semibold text-[#4d3a28] shadow-md transition-colors">
-                    複製
+                <button
+                    id="add-location-btn"
+                    class="px-6 py-3 bg-[#8ed1ff] hover:bg-[#a7ddff] rounded-full font-semibold text-[#2f3c4a] shadow-md transition-colors"
+                >
+                    新增到清單
                 </button>
-            </div>
-            <p id="copy-feedback" class="text-[#43a047] text-sm mt-2 hidden">✓ 已複製到剪貼簿</p>
-        </section>
+            </section>
 
-        <!-- Footer -->
-        <footer class="text-center mt-8 text-[#7a6b5c] text-sm">
-            <p>Weather data provided by <a href="https://open-meteo.com/" class="text-[#3b82f6] hover:underline">Open-Meteo</a></p>
-        </footer>
-    </div>
+            <!-- Location List Section -->
+            <section
+                class="bg-white/85 border border-[#d2ecfa] rounded-3xl p-6 mb-6 shadow-lg shadow-sky-100 backdrop-blur-sm"
+            >
+                <h2 class="text-xl font-bold text-[#4b3828] mb-4">📋 地點清單</h2>
+                <div id="location-list-empty" class="text-[#8a7a68] text-center py-4">
+                    尚未新增任何地點
+                </div>
+                <ul id="location-list" class="space-y-3 hidden"></ul>
+            </section>
 
-    <script src="js/api.js"></script>
-    <script src="js/setup.js"></script>
-</body>
+            <!-- Widget Settings Section -->
+            <section
+                class="bg-white/85 border border-[#d2ecfa] rounded-3xl p-6 mb-6 shadow-lg shadow-sky-100 backdrop-blur-sm"
+            >
+                <h2 class="text-xl font-bold text-[#4b3828] mb-4">⚙️ Widget 設定</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm text-[#8a7a68] mb-1">循環間隔 (毫秒)</label>
+                        <input
+                            type="number"
+                            id="interval"
+                            value="5000"
+                            min="1000"
+                            step="500"
+                            class="w-full px-4 py-3 rounded-2xl bg-white border border-[#cbe6f7] focus:border-[#f7c266] focus:ring-2 focus:ring-[#f9d385] outline-none shadow-inner"
+                        />
+                    </div>
+                    <div>
+                        <label class="block text-sm text-[#8a7a68] mb-1">溫度單位</label>
+                        <div class="flex gap-4 mt-2">
+                            <label
+                                class="flex items-center gap-2 cursor-pointer px-3 py-2 rounded-2xl border border-[#cbe6f7] bg-white hover:border-[#f7c266] transition-colors"
+                            >
+                                <input
+                                    type="radio"
+                                    name="unit"
+                                    value="celsius"
+                                    checked
+                                    class="w-4 h-4 text-[#f7c266]"
+                                />
+                                <span class="text-[#4b3828]">攝氏 (°C)</span>
+                            </label>
+                            <label
+                                class="flex items-center gap-2 cursor-pointer px-3 py-2 rounded-2xl border border-[#cbe6f7] bg-white hover:border-[#f7c266] transition-colors"
+                            >
+                                <input
+                                    type="radio"
+                                    name="unit"
+                                    value="fahrenheit"
+                                    class="w-4 h-4 text-[#f7c266]"
+                                />
+                                <span class="text-[#4b3828]">華氏 (°F)</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Preview Section -->
+            <section
+                class="bg-white/85 border border-[#d2ecfa] rounded-3xl p-6 mb-6 shadow-lg shadow-sky-100 backdrop-blur-sm"
+            >
+                <h2 class="text-xl font-bold text-[#4b3828] mb-4">👁️ Widget 預覽</h2>
+                <div
+                    class="bg-[#f1f8ff] rounded-3xl p-4 flex items-center justify-center min-h-[170px] border border-[#d2ecfa] shadow-inner"
+                >
+                    <iframe
+                        id="preview-iframe"
+                        class="w-[320px] h-[170px] border-0 rounded-2xl shadow-lg"
+                        src="about:blank"
+                    ></iframe>
+                </div>
+                <button
+                    id="refresh-preview-btn"
+                    class="mt-4 px-4 py-2 bg-[#8ed1ff] hover:bg-[#a7ddff] rounded-full text-sm font-semibold text-[#2f3c4a] shadow-md transition-colors"
+                >
+                    🔄 重新整理預覽
+                </button>
+            </section>
+
+            <!-- URL Output Section -->
+            <section
+                class="bg-white/85 border border-[#d2ecfa] rounded-3xl p-6 shadow-lg shadow-sky-100 backdrop-blur-sm"
+            >
+                <h2 class="text-xl font-bold text-[#4b3828] mb-4">🔗 Widget URL</h2>
+                <div class="flex flex-col md:flex-row gap-2">
+                    <input
+                        type="text"
+                        id="widget-url"
+                        readonly
+                        class="flex-1 px-4 py-3 rounded-2xl bg-white border border-[#cbe6f7] text-sm font-mono text-[#2f3c4a] shadow-inner"
+                        placeholder="新增地點後將顯示 URL"
+                    />
+                    <button
+                        id="copy-url-btn"
+                        class="px-6 py-3 bg-[#f7c266] hover:bg-[#f9d385] rounded-full font-semibold text-[#4d3a28] shadow-md transition-colors"
+                    >
+                        複製
+                    </button>
+                </div>
+                <p id="copy-feedback" class="text-[#43a047] text-sm mt-2 hidden">
+                    ✓ 已複製到剪貼簿
+                </p>
+            </section>
+
+            <!-- Footer -->
+            <footer class="text-center mt-8 text-[#7a6b5c] text-sm">
+                <p>
+                    Weather data provided by
+                    <a href="https://open-meteo.com/" class="text-[#3b82f6] hover:underline"
+                        >Open-Meteo</a
+                    >
+                </p>
+            </footer>
+        </div>
+
+        <script src="js/api.js"></script>
+        <script src="js/setup.js"></script>
+    </body>
 </html>

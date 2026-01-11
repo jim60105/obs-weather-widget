@@ -70,7 +70,7 @@ console.log(weatherC);
 // }
 
 // Fetch weather in Fahrenheit
-const weatherF = await WeatherAPI.fetchWeather(35.676, 139.650, 'fahrenheit');
+const weatherF = await WeatherAPI.fetchWeather(35.6895, 139.6917, 'fahrenheit');
 console.log(weatherF.daily.temperature_2m_max); // [65.3, 59.4]
 ```
 
@@ -82,8 +82,8 @@ Fetch weather for multiple locations in parallel.
 // Define multiple locations
 const myLocations = [
     { name: '台北', lat: 25.033, lon: 121.565 },
-    { name: '東京', lat: 35.676, lon: 139.650 },
-    { name: 'Paris', lat: 48.8566, lon: 2.3522 }
+    { name: '東京', lat: 35.6895, lon: 139.6917 },
+    { name: 'Paris', lat: 48.8534, lon: 2.3488 }
 ];
 
 // Fetch all weather data in parallel

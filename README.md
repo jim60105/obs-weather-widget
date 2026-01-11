@@ -99,7 +99,7 @@ The widget page accepts the following URL parameters:
 Example:
 
 ```text
-/widget.html?locations=[{"name":"台北","lat":25.0330,"lon":121.5654},{"name":"東京","lat":35.6762,"lon":139.6503}]
+/widget.html?locations=[{"name":"台北","lat":25.0531,"lon":121.5264},{"name":"東京","lat":35.68952,"lon":139.6917}]
 ```
 
 ## Tech Stack
