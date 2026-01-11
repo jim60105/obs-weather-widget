@@ -2,9 +2,6 @@
 
 A transparent weather widget for OBS Studio browser sources, displaying weather forecasts with cycling location support.
 
-[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
-[![Tests](https://img.shields.io/badge/tests-23%2F23%20passing-brightgreen.svg)](INTEGRATION_TEST_REPORT.md)
-
 ## Features
 
 - 🌤️ Display tomorrow's weather forecast with intuitive SVG icons
