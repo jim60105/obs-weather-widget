@@ -168,3 +168,4 @@ Copyright (C) 2026 Jim Chen <Jim@ChenJ.im>。
 ## 致謝
 
 - 天氣資料由 [Open-Meteo](https://open-meteo.com/) 提供
+- 圖案與 Nano Banana Pro by Gemini 3 協作完成: [對話1](https://gemini.google.com/share/d15fe07df530), [對話2](https://gemini.google.com/share/0ccfcfe3dce7)
