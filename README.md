@@ -144,39 +144,24 @@ npx serve .
 
 # Or using Python
 python -m http.server 8000
-
-# Or using PHP
-php -S localhost:8000
 ```
 
 Then open `http://localhost:8000` in your browser.
 
-## Testing
-
-### Running Tests
-
-The project includes comprehensive integration tests:
-
-```bash
-# Start a local server
-python -m http.server 8000
-
-# Open test pages in your browser
-# - http://localhost:8000/test-integration.html (Automated test suite)
-# - http://localhost:8000/test-icons.html (Icon display tests)
-```
-
-### Test Results
-
-✅ **23/23 tests passing** (100% success rate)
-
-See [INTEGRATION_TEST_REPORT.md](INTEGRATION_TEST_REPORT.md) for detailed test results and [TESTING_SUMMARY.md](TESTING_SUMMARY.md) for a comprehensive overview.
-
 ## License
 
-This project is licensed under the **GNU Affero General Public License v3.0** - see the [LICENSE](LICENSE) file for details.
+<img src="https://github.com/user-attachments/assets/38374bb8-9e65-482d-97d9-045a8d95b51b" alt="agplv3" width="300" />
+
+[GNU AFFERO GENERAL PUBLIC LICENSE Version 3](./LICENSE)
+
+Copyright (C) 2026 Jim Chen <Jim@ChenJ.im>.
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 ## Acknowledgments
 
 - Weather data provided by [Open-Meteo](https://open-meteo.com/)
-- Location data based on [GeoNames](https://www.geonames.org/)
