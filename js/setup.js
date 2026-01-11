@@ -318,6 +318,7 @@ function loadState() {
             setupState.locations = parsedState.locations.filter(loc =>
                 loc &&
                 typeof loc.name === 'string' &&
+                loc.name.trim().length > 0 &&
                 typeof loc.lat === 'number' &&
                 typeof loc.lon === 'number' &&
                 loc.lat >= -90 && loc.lat <= 90 &&
