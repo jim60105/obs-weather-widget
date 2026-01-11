@@ -21,38 +21,43 @@
         <script src="https://cdn.tailwindcss.com"></script>
         <link rel="stylesheet" href="css/styles.css" />
     </head>
-    <body class="bg-transparent">
+    <body class="bg-transparent widget-body">
         <!-- Loading State -->
-        <div id="loading" class="flex flex-col items-center justify-center w-full">
-            <div class="loader-ring"></div>
-            <p class="mt-3 text-sm text-[#6a5846]">正在準備可愛的天氣卡片...</p>
+        <div id="loading" class="state-screen">
+            <div class="state-card">
+                <div class="loader-ring"></div>
+                <p class="state-text">正在準備可愛的天氣卡片...</p>
+            </div>
         </div>
 
         <!-- Error State -->
-        <div id="error" class="hidden flex justify-center p-4">
-            <div class="error-card text-center w-full max-w-md">
+        <div id="error" class="hidden state-screen">
+            <div class="state-card error-card text-center">
                 <p id="error-message" class="mb-2">無法載入天氣資料</p>
                 <p class="text-sm">請稍後再試，或確認網址參數是否正確。</p>
             </div>
         </div>
 
         <!-- Weather Display -->
-        <main id="weather-display" class="hidden w-full flex justify-center" aria-live="polite">
+        <main id="weather-display" class="hidden state-screen" aria-live="polite">
             <section class="widget-card" role="group" aria-label="明日天氣">
-                <div class="widget-hero">
-                    <div id="weather-icon" class="icon-bubble" aria-hidden="true">
-                        <img src="" alt="" loading="lazy" />
-                    </div>
-                    <div class="hero-text">
-                        <p class="label">明日預報</p>
+                <div class="widget-layout">
+                    <header class="location-row">
                         <h1 id="place-name">地點</h1>
-                        <p id="description" class="description">晴朗舒適</p>
-                        <div class="temp-main">
-                            <span id="temp-main">22°</span>
+                    </header>
+                    <div class="weather-body">
+                        <div id="weather-icon" class="icon-wrap" aria-hidden="true">
+                            <img src="" alt="" loading="lazy" />
                         </div>
-                        <div class="temp-range">
-                            高溫 <span id="temp-max">22°</span> ／ 低溫
-                            <span id="temp-min">16°</span>
+                        <div class="temp-block">
+                            <div class="temp-main">
+                                <span id="temp-main">22°</span>
+                            </div>
+                            <p id="description" class="description">晴朗舒適</p>
+                            <p class="temp-range">
+                                高溫 <span id="temp-max">22°</span> <br>
+                                低溫 <span id="temp-min">16°</span>
+                            </p>
                         </div>
                     </div>
                 </div>
