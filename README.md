@@ -13,6 +13,10 @@
 - 🔧 使用者友善的設定頁面，具備即時預覽
 - 🌍 支援全球地點搜尋（使用地理編碼）
 
+## 展示
+
+<img width="1192" height="667" alt="usage (1)" src="https://github.com/user-attachments/assets/18776405-75cf-4e13-99b9-76bc2a8146e7" />
+
 ## 頁面說明
 
 ### 設定頁（`/`）
