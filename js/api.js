@@ -47,7 +47,7 @@ async function searchLocation(query, count = 10, language = 'en') {
         return data.map(item => {
             // Extract name with fallback logic
             let name = item.name;
-            if (!name && item.display_name) {
+            if (!name && item.display_name && typeof item.display_name === 'string') {
                 // If no name field, use first part of display_name
                 name = item.display_name.split(',')[0].trim();
             }
