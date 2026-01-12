@@ -360,12 +360,13 @@ function syncStateToUI() {
  * Initialize event listeners
  */
 function initEventListeners() {
-    // Search
+    // Search - button click and Enter key only (no auto-complete)
     elements.searchBtn.addEventListener('click', handleSearch);
     elements.searchInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') handleSearch();
     });
-    elements.searchInput.addEventListener('input', debounce(handleSearch, 300));
+    // Removed: elements.searchInput.addEventListener('input', debounce(handleSearch, 300));
+    // This violates Nominatim's usage policy which prohibits auto-complete search
 
     // Search result selection (event delegation)
     elements.resultsList.addEventListener('click', (e) => {
