@@ -28,8 +28,7 @@ async function searchLocation(query, count = 10, language = 'en') {
             format: 'jsonv2',
             limit: Math.min(count, 40), // Nominatim max is 40
             'accept-language': language,
-            addressdetails: '1',
-            layer: 'address' // Focus on address-type results for location search
+            addressdetails: '1'
         });
 
         const response = await fetch(`https://nominatim.openstreetmap.org/search?${params}`, {
@@ -45,14 +44,23 @@ async function searchLocation(query, count = 10, language = 'en') {
         const data = await response.json();
         
         // Transform Nominatim response to match existing interface
-        return data.map(item => ({
-            id: item.place_id,
-            name: item.name || item.display_name.split(',')[0],
-            latitude: parseFloat(item.lat),
-            longitude: parseFloat(item.lon),
-            country: item.address?.country || '',
-            admin1: item.address?.state || item.address?.region || ''
-        }));
+        return data.map(item => {
+            // Extract name with fallback logic
+            let name = item.name;
+            if (!name && item.display_name) {
+                // If no name field, use first part of display_name
+                name = item.display_name.split(',')[0].trim();
+            }
+            
+            return {
+                id: item.place_id,
+                name: name || 'Unknown',
+                latitude: parseFloat(item.lat),
+                longitude: parseFloat(item.lon),
+                country: item.address?.country || '',
+                admin1: item.address?.state || item.address?.region || ''
+            };
+        });
     } catch (error) {
         console.error('Failed to search location:', error);
         throw new Error(`Location search failed: ${error.message}`);

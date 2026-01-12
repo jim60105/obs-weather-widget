@@ -136,8 +136,7 @@ https://nominatim.openstreetmap.org/search
   format: "jsonv2",    // response format
   limit: number,       // max results (default: 10, max: 40)
   "accept-language": string,  // e.g., "en", "zh"
-  addressdetails: "1", // include address breakdown
-  layer: "address"     // filter to address-type results
+  addressdetails: "1"  // include address breakdown
 }
 
 // Response (jsonv2 format)
