@@ -66,12 +66,12 @@
 
 ## API 整合
 
-本專案使用 [Open-Meteo](https://open-meteo.com/) 的 API：
+本專案使用以下 API：
 
-| API      | Endpoint                                         | 用途             |
-| -------- | ------------------------------------------------ | ---------------- |
-| 天氣預報 | `https://api.open-meteo.com/v1/forecast`         | 取得每日天氣資料 |
-| 地理編碼 | `https://geocoding-api.open-meteo.com/v1/search` | 將地名轉換為座標 |
+| API          | Endpoint                                             | 用途             |
+| ------------ | ---------------------------------------------------- | ---------------- |
+| 天氣預報     | `https://api.open-meteo.com/v1/forecast`             | 取得每日天氣資料 |
+| 地理編碼     | `https://nominatim.openstreetmap.org/search`         | 將地名轉換為座標 |
 
 ### 取得的天氣資料
 
@@ -178,4 +178,5 @@ Copyright (C) 2026 Jim Chen <Jim@ChenJ.im>。
 ## 致謝
 
 - 天氣資料由 [Open-Meteo](https://open-meteo.com/) 提供
+- 地理編碼由 [OpenStreetMap](https://www.openstreetmap.org/copyright) 提供
 - 圖案與 Nano Banana Pro by Gemini 3 協作完成: [對話1](https://gemini.google.com/share/d15fe07df530), [對話2](https://gemini.google.com/share/0ccfcfe3dce7)

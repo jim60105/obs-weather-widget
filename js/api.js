@@ -1,19 +1,19 @@
 /**
- * Open-Meteo API Integration Module
+ * Weather API Integration Module
  * 
- * This module provides a wrapper for interacting with Open-Meteo APIs:
- * - Weather Forecast API: Fetch daily weather data
- * - Geocoding API: Search for locations by name
+ * This module provides wrappers for interacting with:
+ * - Open-Meteo Weather Forecast API: Fetch daily weather data
+ * - OpenStreetMap Nominatim API: Geocoding (search for locations by name)
  * 
  * All functions use modern ES6+ syntax with async/await for API calls.
  */
 
 /**
- * Search for locations by name using Open-Meteo Geocoding API
- * @param {string} query - Search query (place name or postal code)
- * @param {number} count - Number of results to return (default: 10, max: 100)
+ * Search for locations by name using OpenStreetMap Nominatim API
+ * @param {string} query - Search query (place name)
+ * @param {number} count - Number of results to return (default: 10, max: 40)
  * @param {string} language - Language code for results (default: 'en')
- * @returns {Promise<Array>} Array of location objects with id, name, latitude, longitude, country, admin1
+ * @returns {Promise<Array>} Array of location objects with name, latitude, longitude, country, admin1
  * @throws {Error} If API request fails
  */
 async function searchLocation(query, count = 10, language = 'en') {
@@ -24,22 +24,43 @@ async function searchLocation(query, count = 10, language = 'en') {
 
     try {
         const params = new URLSearchParams({
-            name: query.trim(),
-            count: count,
-            language: language,
-            format: 'json'
+            q: query.trim(),
+            format: 'jsonv2',
+            limit: Math.min(count, 40), // Nominatim max is 40
+            'accept-language': language,
+            addressdetails: '1'
         });
 
-        const response = await fetch(`https://geocoding-api.open-meteo.com/v1/search?${params}`);
+        const response = await fetch(`https://nominatim.openstreetmap.org/search?${params}`, {
+            headers: {
+                'User-Agent': 'OBS-Weather-Widget/1.0 (https://weather.obs.xn--jgy.tw/)'
+            }
+        });
 
         if (!response.ok) {
-            throw new Error(`Geocoding API error: ${response.status} ${response.statusText}`);
+            throw new Error(`Nominatim API error: ${response.status} ${response.statusText}`);
         }
 
         const data = await response.json();
         
-        // Handle case where no results are found
-        return data.results || [];
+        // Transform Nominatim response to match existing interface
+        return data.map(item => {
+            // Extract name with fallback logic
+            let name = item.name;
+            if (!name && item.display_name && typeof item.display_name === 'string') {
+                // If no name field, use first part of display_name
+                name = item.display_name.split(',')[0].trim();
+            }
+            
+            return {
+                id: item.place_id,
+                name: name || 'Unknown',
+                latitude: parseFloat(item.lat),
+                longitude: parseFloat(item.lon),
+                country: item.address?.country || '',
+                admin1: item.address?.state || item.address?.region || ''
+            };
+        });
     } catch (error) {
         console.error('Failed to search location:', error);
         throw new Error(`Location search failed: ${error.message}`);

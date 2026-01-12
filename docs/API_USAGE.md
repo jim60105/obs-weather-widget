@@ -1,6 +1,10 @@
 # API Module Usage Examples
 
-This document provides usage examples for the Open-Meteo API integration module (`js/api.js`).
+This document provides usage examples for the Weather API integration module (`js/api.js`).
+
+The module integrates with:
+- **Open-Meteo Weather Forecast API**: Fetch daily weather data
+- **OpenStreetMap Nominatim API**: Geocoding (search locations by name)
 
 ## Loading the Module
 
@@ -22,7 +26,7 @@ const { searchLocation, fetchWeather, fetchWeatherForLocations } = require('./js
 
 ### 1. searchLocation(query, count, language)
 
-Search for locations by name or postal code.
+Search for locations by name using OpenStreetMap Nominatim API.
 
 ```javascript
 // Basic search (returns up to 10 results by default)
@@ -30,7 +34,7 @@ const locations = await WeatherAPI.searchLocation('Taipei');
 console.log(locations);
 // [
 //   {
-//     id: 1668341,
+//     id: 123456789,          // Nominatim place_id
 //     name: "Taipei",
 //     latitude: 25.04776,
 //     longitude: 121.53185,
@@ -40,7 +44,7 @@ console.log(locations);
 //   ...
 // ]
 
-// Limit results to 5
+// Limit results to 5 (max 40)
 const limitedResults = await WeatherAPI.searchLocation('Tokyo', 5);
 
 // Search in specific language
@@ -49,6 +53,11 @@ const resultsFr = await WeatherAPI.searchLocation('Paris', 10, 'fr');
 // Input validation - returns empty array for short queries
 const empty = await WeatherAPI.searchLocation('T'); // []
 ```
+
+**Important Notes:**
+- Maximum 40 results per query (Nominatim limit)
+- Must respect 1 request/second rate limit
+- Auto-complete search is not allowed by Nominatim usage policy
 
 ### 2. fetchWeather(lat, lon, unit)
 
@@ -169,9 +178,18 @@ The `weather_code` field uses WMO codes:
 
 ## API Rate Limits
 
-Open-Meteo API is free and allows:
+### Open-Meteo Weather API
 - 10,000 API calls per day
 - No API key required
 - Attribution is appreciated
 
 For more information, visit: https://open-meteo.com/
+
+### OpenStreetMap Nominatim API
+- Maximum 1 request per second
+- No API key required
+- Must provide User-Agent header
+- Must display OpenStreetMap attribution
+- Auto-complete search is prohibited
+
+Usage Policy: https://operations.osmfoundation.org/policies/nominatim/

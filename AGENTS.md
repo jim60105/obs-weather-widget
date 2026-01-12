@@ -55,10 +55,10 @@ obs-weather-widget/
 
 ### API Module (`js/api.js`)
 
-Provides Open-Meteo API integration functions, accessible via `window.WeatherAPI` in browser environment:
+Provides API integration functions, accessible via `window.WeatherAPI` in browser environment:
 
-- `searchLocation(query, count, language)`: Geocoding search
-- `fetchWeather(lat, lon, unit)`: Fetch weather for a single location
+- `searchLocation(query, count, language)`: Geocoding search using OpenStreetMap Nominatim
+- `fetchWeather(lat, lon, unit)`: Fetch weather for a single location using Open-Meteo
 - `fetchWeatherForLocations(locations, unit)`: Fetch weather for multiple locations in parallel
 - `getWeatherIcon(code)`: Convert WMO code to filename
 - `getWeatherIconPath(code)`: Get full icon path
@@ -70,7 +70,7 @@ All functions use `async/await` and include error handling mechanisms.
 
 State management and interaction logic for the setup page:
 
-1. **Location Search**: Uses Geocoding API with debounce (300ms) to avoid excessive requests
+1. **Location Search**: Uses Nominatim Geocoding API. Search is triggered by button click or Enter key only (no auto-complete to comply with Nominatim usage policy)
 2. **Location Management**: Maintains `setupState.locations` array, supports add/remove operations
 3. **Live Preview**: Uses `<iframe>` to display widget preview, automatically updates when parameters change
 4. **URL Generator**: Encodes `locations`, `interval`, `unit` parameters into URL query string
@@ -124,34 +124,43 @@ https://api.open-meteo.com/v1/forecast
 }
 ```
 
-### Geocoding API
+### Geocoding API (OpenStreetMap Nominatim)
 
 ```javascript
 // Endpoint
-https://geocoding-api.open-meteo.com/v1/search
+https://nominatim.openstreetmap.org/search
 
 // Parameters
 {
-  name: string,      // search query
-  count: number,     // max results (default: 10)
-  language: string,  // e.g., "en", "zh"
-  format: "json"
+  q: string,           // search query
+  format: "jsonv2",    // response format
+  limit: number,       // max results (default: 10, max: 40)
+  "accept-language": string,  // e.g., "en", "zh"
+  addressdetails: "1"  // include address breakdown
 }
 
-// Response
-{
-  results: [
-    {
-      id: number,
-      name: string,
-      latitude: number,
-      longitude: number,
+// Response (jsonv2 format)
+[
+  {
+    place_id: number,
+    lat: string,       // latitude as string
+    lon: string,       // longitude as string
+    name: string,      // place name
+    display_name: string,  // full display name
+    address: {
       country: string,
-      admin1: string
+      state: string,
+      ...
     }
-  ]
-}
+  }
+]
 ```
+
+**Important Requirements (Nominatim Usage Policy):**
+- Must provide valid User-Agent header identifying the application
+- Maximum 1 request per second
+- No auto-complete search allowed (use button trigger or Enter key only)
+- Must display proper attribution to OpenStreetMap
 
 ### WMO Weather Codes Mapping
 
@@ -323,6 +332,7 @@ No build commands or environment variables need to be configured.
 - **License**: AGPL-3.0 (see LICENSE file)
 - **Copyright**: Copyright (C) 2026 Jim Chen
 - **Weather Data**: [Open-Meteo](https://open-meteo.com/)
+- **Geocoding**: [OpenStreetMap](https://www.openstreetmap.org/copyright) (Nominatim)
 - **Font**: UoqMunThenKhung (Google Fonts)
 
 ## Important Notes for AI Agents
@@ -333,8 +343,10 @@ No build commands or environment variables need to be configured.
    - Communicate with users in **Traditional Chinese**
 
 2. **API Limitations**:
-   - Open-Meteo free API limit: 10,000 calls/day
-   - No API key required
+   - Open-Meteo Weather API limit: 10,000 calls/day
+   - Nominatim Geocoding: max 1 request/second, no auto-complete allowed
+   - No API key required for either service
+   - Must provide User-Agent header for Nominatim
    - Implement appropriate error handling for API failures
 
 3. **OBS Compatibility**:
