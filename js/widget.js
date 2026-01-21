@@ -7,8 +7,14 @@ const state = {
     currentIndex: 0,
     interval: 5000,
     unit: 'celsius',
-    timer: null
+    timer: null,
+    lastFetchTime: null  // Track last weather data fetch time
 };
+
+/**
+ * Weather data refresh interval (12 hours in milliseconds)
+ */
+const WEATHER_REFRESH_INTERVAL = 12 * 60 * 60 * 1000; // 12 hours = 43200000 ms
 
 /**
  * Parse URL parameters
@@ -94,10 +100,63 @@ function updateDisplay() {
 }
 
 /**
- * Cycle to next location
+ * Check if weather data needs to be refreshed
+ * @returns {boolean} True if data should be refreshed
  */
-function cycleLocation() {
-    state.currentIndex = (state.currentIndex + 1) % state.weatherData.length;
+function shouldRefreshWeather() {
+    // If never fetched before, don't refresh here (handled in init)
+    if (!state.lastFetchTime) {
+        return false;
+    }
+    
+    const now = Date.now();
+    const timeSinceLastFetch = now - state.lastFetchTime;
+    
+    return timeSinceLastFetch >= WEATHER_REFRESH_INTERVAL;
+}
+
+/**
+ * Refresh weather data for all locations
+ * @returns {Promise<boolean>} True if refresh succeeded
+ */
+async function refreshWeatherData() {
+    try {
+        console.log('Refreshing weather data...');
+        
+        // Fetch new weather data
+        const newWeatherData = await fetchWeatherForLocations(state.locations, state.unit);
+        
+        // Update state
+        state.weatherData = newWeatherData;
+        state.lastFetchTime = Date.now();
+        
+        // Update display immediately
+        updateDisplay();
+        
+        console.log('Weather data refreshed successfully');
+        return true;
+    } catch (error) {
+        console.error('Failed to refresh weather data:', error);
+        // Keep using old data if refresh fails
+        return false;
+    }
+}
+
+/**
+ * Cycle to next location
+ * Also checks if weather data needs refresh
+ */
+async function cycleLocation() {
+    // Check if weather data needs refresh before cycling
+    if (shouldRefreshWeather()) {
+        await refreshWeatherData();
+        // After refresh, reset to first location
+        state.currentIndex = 0;
+    } else {
+        // Normal cycling
+        state.currentIndex = (state.currentIndex + 1) % state.weatherData.length;
+    }
+    
     updateDisplay();
 }
 
@@ -131,6 +190,7 @@ async function initWidget() {
     try {
         // Fetch weather data for all locations
         state.weatherData = await fetchWeatherForLocations(state.locations, state.unit);
+        state.lastFetchTime = Date.now();  // Record initial fetch time
         
         // Show weather display
         showWeather();
